@@ -1,11 +1,17 @@
 # DJANGO:
 [примеры кода можно посмотреть здесь](https://github.com/Chudopal/Django_learning)
-+ [Настройка виртуальной среды](#settings_of_env)
-+ [Основные термины](#basics_termins)
-+ [Основные команды Django](#basic_commands_django)
 
 **Django - это фреймворк для backend разработки, написанный на python.**
-### <a name="settings_of_env"></a> Настройка виртуальной среды
++ ## [Настройка виртуальной среды](#settings_of_env)
++ ## [Основные термины](#basics_termins)
++ ## [Основные команды Django](#basic_commands_django)
++ ## [Создание проекта и приложения](#make_model_and_app)
++ ## [Модели Django] (#models)
+  + ### [Создание моделей](#create_model)
+  + ### [Добавление моделей в abmin.py](#add_in_admin)
+  + ### [Настройка отображения моделей](#display_of_models)
+
+## <a name="settings_of_env"></a> Настройка виртуальной среды
 + Для того, чтобы начать Django-проект желательно сделать виртуальную среду и установить в ней Django.
 + Для того, чтобы уcтановить виртуальную среду необходимо создать папку, в которой в консоли прописать: `python3 -m venv name_of_env` 
 + Далее для работы необходимо активировать виртуальную среду:
@@ -21,7 +27,7 @@
 + Для того, чтобы посмотреть какие пакеты с их версиями установленны в среде необходимо выполнить команду:
 `pip freeze`
 
-### <a name="basics_termins"></a> Основные термины
+## <a name="basics_termins"></a> Основные термины
 В Django *проект* – это код, созданный с использoванием Django и содержащий некоторые настройки. *Приложение* – это набор
 модулей, описывающих модели, обработчики запросов, шаблоны и конфигурации URL’ов. Приложение взаимодействует с фреймворком, предоставляя не-
 которую функциональность, и может быть многократно использовано в других проектах. Мы можем сопоставить проект с сайтом, который состоит из
@@ -29,10 +35,21 @@
 может быть использовано и в других проектах.
 *Миграции* - это что-то вроде системы контроля версий для базы данных. Они позволяют команде программистов изменять структуру БД, в то же время оставаясь в курсе изменений других участников. Миграции обычно идут рука об руку с конструктором таблиц для более простого обращения с архитектурой вашего приложения.
 
-### <a name="basic_commands_django"></a> Основные команды Django
+## <a name="basic_commands_django"></a> Основные команды Django
 Команды просто писать в терминале:
 
++ **`source name_of_env/bin/activate`** - активация виртуальной среды.
++ **`deactivate`** - деактивация виртуальной среды.
 + **`django-admin startproject mysite`** - создание проекта  mysite.
++ **`python manage.py runserver`** - запуск сервера. 
++ **`python manage.py startapp blog`** - создание приложения blog.
++ **`python manage.py makemigrations blog`** - инициализирующая миграция, ее нужно делать всякий раз после изменения models.py.
++ **`python manage.py sqlmigrate blog 0001`** - выводит SQL код миграции 0001 в консоль.
++ **`python manage.py migrate`** - синхронизация базы данных. Применение миграции для всех приложений, указанных в INSTALLED_APPS, файла setting.py.
++ **`python manage.py createsuperuser`** - создание сайта администрирования. На нем можно управлять всеми моделями, которые в нем определены.
+
+## <a name="make_model_and_app">  Создание проекта и приложения
+**`django-admin startproject mysite`** - создание проекта  mysite.
 После создания проекта в директории появится папка mysite, в которой будет следующее содержимое:
 ```
 mysite/ 
@@ -42,13 +59,12 @@ mysite/
         settings.py     - конфигурация проекта.
         urls.py         - здесь будут содержаться шаблоны адресов.
         wsgi.py         - конфигурация для запуска проекта как WSGI-приложения.
+
 ```
+Далее можно посмотреть, успешно ли создался проект, для этого необходмо его запустить:
+**`python manage.py runserver`** - запуск сервера, по умолчанию он доступен по адресу `127.0.0.1:8000` или `localhost:8000`, чтобы изменить адрес или файл кофигурации нужно в консоле запустить сервер следующим образом: `python manage.py runserver 127.0.0.1:8001 --settings=mysite.settings`
 
-+ **`python manage.py runserver`** - запуск сервера, по умолчанию он доступен по адресу `127.0.0.1:8000` или `localhost:8000`, чтобы изменить адрес или файл кофигурации нужно в консоле запустить сервер следующим образом: 
-
-`python manage.py runserver 127.0.0.1:8001 --settings=mysite.settings` 
-
-+ **`python manage.py startapp blog`** - создание приложения blog. Приложения - это блоки проекта.
+**`python manage.py startapp blog`** - создание приложения blog. Приложения - это блоки проекта.
 ```
 blog/
     __init__.py
@@ -63,7 +79,77 @@ blog/
 Чтобы приложение blog было видно Django, необходимо добавить 
 *blog.apps.BlogConfig* в настройку INSTALLED_APPS в файле settings.py. 
 Класс BlogConfig – это конфигурация приложения.
-+ **`python manage.py makemigrations blog`** - инициализирующая миграция, ее нужно делать всякий раз после изменения models.py.
-+ **`python manage.py sqlmigrate blog 0001`** - выводит SQL код миграции 0001 в консоль.
-+ **`python manage.py migrate`** - синхронизация базы данных. Применение миграции для всех приложений, указанных в INSTALLED_APPS, файла setting.py.
-+ **`python manage.py createsuperuser`** - создание сайта администрирования.
+
+## <a name="models"></a>Модели Django
+**Модели** отображают информацию о данных, с которыми вы работаете. Они содержат поля и поведение ваших данных. Обычно одна модель представляет одну таблицу в базе данных.
+
+Основы:
++ Каждая модель это класс унаследованный от *django.db.models.Model*.
++ Атрибут модели представляет поле в базе данных.
++ Django предоставляет автоматически созданное API для доступа к данным.
+### <a name="create_model"></a> Создание моделей 
+Модели описваются в файле models.py:
+```python
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+class Post(models.Model):
+    """Класс для формирования модели поста в базе данных.
+    Если вдруг происходит изменение здесь,
+    необходимо пересобрать базу данных"""
+
+    STATUS_CHOICES = ( 
+        ('draft','Draft'),  
+        ('published','Published'),
+    )
+    title = models.CharField(max_length=250) #заголовок статьи, базе данных пребразуется в обычный VARCHAR
+    slug = models.SlugField(max_length=250, unique_for_date='publish') #Поле для формаирования URL-ов. unique_for_date - для формирования уникальных имен
+    author = models.ForeignKey(User, on_delete=models.CASCADE, #внешний ключ,определеят отношение "один ко многим".  
+                               related_name='blog_posts')#on_delete -определяет поведение при удалиении пользователя. CASCADE - удалять все посты пользоватля.
+                                                         #related_name - имя обратной связи от User к Post. Так можно найти вязанные посты автора
+    body = models.TextField()#основное содержание статьи.
+    publish = models.DateTimeField(default=timezone.now) #поле даты, которое сохраняет дату публикации. datetime.now - возвращает текущую дату.
+    created = models.DateTimeField(auto_now_add=True)#поле даты. указывает, когда статья была создана. auto_now_add - авто сохранение даты при создании объекта
+    updated = models.DateTimeField(auto_now=True)#дата и время, когда статья была отредактирована. auto_now - дата будет сохраняться автоматически при создании объекта
+    status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='draft')#отображает статус статьи.  STATUS_CHOICES - отсюда будут браться варианты
+    class Meta:
+        """Метаданные
+        Здесь мы указали, что статьи должны
+        сортироваться по дате публикации"""
+
+        ordering = ('-publish',)#"-" - означает что сортировка должна происходить по убыванию
+        def __str__(self):
+            return self.title
+```
+Каждое поле определено как атрибут класса, и каждый атрибут соответствует полю таблицы в базе данных.
+После изменения модели необходимо прописать в терминале:
++ `python manage.py makemigrations name_of_app`
++ `python manage.py migrate`
+
+### <a name="add_in_admin></a> Добавление моделей в admin.py
+**`python manage.py createsuperuser`** - создание сайта администрирования. На нем можно управлять всеми моделями, которые в нем определены.
+Чтобы приложение показывало свою модель на странице администрирования необходимо изменить
+файл admin.py этого приложения таким образом:
+```python
+from django.contrib import admin
+from .models import Post
+
+admin.site.register(Post)
+```
+Где *Post* - это модель из приложения. Теперь на `localhost:8000/admin` можно добавить или удалить экземляры моделей данного приложения.
+
+### <a name="display_of_models"></a> Настройка отображения моделей
+Можно настривать отображение моделей в /admin, 
+```python
+from django.contrib import admin
+from .models import Post
+
+@admin.register(Post) #декоратор, то же самое что и admin.site.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug', 'author', 'publish','status') #столбцы таблицы
+```
+Так мы говорим Django, что наша модель зарегистрирована на сайте администрирования с помощью пользовательского класса, наследника `ModelAdmin`.
+
