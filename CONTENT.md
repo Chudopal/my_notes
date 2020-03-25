@@ -1,9 +1,13 @@
 ## 1.Веб-программирование
  + ### Backend
     + #### [Django](./Web/Backend/DJANGO.md)
- + ### [Frontend](./Web/Frontend/FRONTEND.md)
+ + ### Frontend
 ## 2.Паттерны проектирования
- + ### [mvc](./Patterns/MVC.md)
+ + ### [Mvc](./Patterns/MVC.md)
 ## 3.ЯП-ы
+ + ### [C++](./Languages/C++.md)
+ + ### [Python](./Languages/PYTHON.md)
+ + ### [Java](./Languages/JAVA.md)
 ## 4.Инструменты
  + ### [Git](./Tools/GIT.md)
+ + ### [Docker](./Tools/DOCKER.md)
