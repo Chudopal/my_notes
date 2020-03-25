@@ -10,6 +10,7 @@
   + ### [Создание моделей](#create_model)
   + ### [Добавление моделей в abmin.py](#add_in_admin)
   + ### [Настройка отображения моделей](#display_of_models)
++ ## [Работа с оболочкой](#query_set)
 
 ## <a name="settings_of_env"></a> Настройка виртуальной среды
 + Для того, чтобы начать Django-проект желательно сделать виртуальную среду и установить в ней Django.
@@ -46,6 +47,7 @@
 + **`python manage.py sqlmigrate blog 0001`** - выводит SQL код миграции 0001 в консоль.
 + **`python manage.py migrate`** - синхронизация базы данных. Применение миграции для всех приложений, указанных в INSTALLED_APPS, файла setting.py.
 + **`python manage.py createsuperuser`** - создание сайта администрирования. На нем можно управлять всеми моделями, которые в нем определены.
++ **`python manage.py shell`** - открыть оболочку.
 
 ## <a name="make_model_and_app">  Создание проекта и приложения
 **`django-admin startproject mysite`** - создание проекта  mysite.
@@ -152,3 +154,29 @@ class PostAdmin(admin.ModelAdmin):
 ```
 Так мы говорим Django, что наша модель зарегистрирована на сайте администрирования с помощью пользовательского класса, наследника `ModelAdmin`.
 
+## <a name="query_set"></a> Работа с оболочкой
+Django ORM основана на объектах запросов *QuerySet*. QuerySet – это коллекция объектов, полученных из базы данных. К ней могут быть применены фильтрация и сортировка.
++ Чтобы добавить объект в БД, необходимо открыть терминал и прописать `python manage.py shell`,затем прописать следующие строки:
+```python
+>>> from django.contrib.auth.models import User
+>>> from blog.models import Post
+>>> user = User.objects.get(username='admin') #ищем пользователя с таким именем
+>>> post = Post(title='Another post', slug='another-post',
+body='Post body.', author=user)
+>>>post.save()#сохраняем объект в базу данных
+``` 
++ Чтобы получить доступ ко все объектам БД необходимо прописать `>>> all_posts = Post.objects.all()`
++ Методы сортировки:
+  + *filter()*:
+    `Post.objects.filter(publish__year=2017)` - сортировка записей из 2017 года.
+    **Условия фильтрации строятся с использованием двойного подчеркивания например publish__year.**
+  + *exclude()*:
+    фильтр имключения, т е мы исключаем все записи, которые подходят под него: `Post.objects.filter(publish__year=2017).exclude(title__startswith='Why')`
+  + *order_by()*:
+    для сортировки по полям: `Post.objects.order_by('title')` - алфавитном порядке, `Post.objects.order_by('-title')` - в обратном порядке.
++ Чтобы удалить объект:
+    *delete()*: 
+    ```python
+    post = Post.objects.get(id=1)
+    post.delete()
+    ```
