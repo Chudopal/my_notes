@@ -236,6 +236,7 @@ def post_list(request):
     ]
 ```
 **`include - подключает конфигурацию приложения.`**
+
 В Django есть соглашение о том, что метод модели get_absolute_url() должен возвращать канонический URL объекта:
 ```python
     from django.urls import reverse
