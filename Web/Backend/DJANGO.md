@@ -10,6 +10,7 @@
 + ## [Создание проекта и приложения](#make_model_and_app)
 + ## [Модели Django](#models_of_django)
   + ### [Создание моделей](#create_model)
+  + ### [Немного про внешний ключ](#forignkey)
   + ### [Добавление моделей в abmin.py](#add_in_admin)
   + ### [Настройка отображения моделей](#display_of_models)
 + ## [Работа с оболочкой](#query_set)
@@ -140,6 +141,38 @@ class Post(models.Model):
 + `python manage.py makemigrations name_of_app`
 + `python manage.py migrate`
 
+### <a name="forignkey"></a> Немного про внешний ключ
+
+Термин «внешний ключ» (foreign key) происходит из теории баз данных; внешний ключ содержит ссылку на другую запись в базе данных. Таким образом можно сделать иерархическую модель наподобии "Жанр - фильм" или "Топик - текст". В Django это можно релизовать вледующим образом:
+```python
+from django.db import models
+
+# Create your models here.
+
+class Topic(models.Model):
+    """Тема, которую изучает пользователь"""
+    text = models.CharField(max_length=200)
+    date_added = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        """Возвращает строковое представление модели."""
+        return self.text
+
+
+class Entry(models.Model):
+    """Информация, изученная пользователем по теме"""
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE) #ВНЕШНИЙ КЛЮЧ
+    text = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural = 'entries'
+    
+    def __str__(self):
+        """Возвращает строковое представление модели."""
+        return self.text[:50] + "..."
+``` 
+В данном случае реализованна модель "многие-к-одному", так как множество различные записей(Entry) может принадлежать одной теме(Topic).
+
 ### <a name="add_in_admin"></a> Добавление моделей в admin.py
 **`python manage.py createsuperuser`** - создание сайта администрирования. На нем можно управлять всеми моделями, которые в нем определены.
 Чтобы приложение показывало свою модель на странице администрирования необходимо изменить
@@ -190,6 +223,14 @@ body='Post body.', author=user)
     post = Post.objects.get(id=1)
     post.delete()
     ```
+Бывают случаи(очень часто), когда необходим доступ по внешнему ключу:
+```python
+>>>t = Topic.objects.get(id=1)
+>>>t.entry_set.all()
+```
+В данном случае в классе *Entry* есть поле `topic = models.ForeignKey(Topic, on_delete=models.CASCADE)`, т.е. внешний ключ к классу Topic.
+Чтобы получить данные через отношение внешнего ключа, необходимо использовать имя связанной модели, записанное в нижнем регистре, за которым следует символ
+подчеркивания и слово set.
 
 ## <a name="handl"></a> Обработчики Django
 Обработчик Django – это простая Python-функция, которая получает веб-запрос и возвращает веб-ответ. Вся логика, формирующая желаемый ответ, описывается внутри этой функции. Каждый обработчик генерирует шаблон, используя переменные контекста, и возвращает HTTP-ответ со сформированной HTML-страницей.
