@@ -3,6 +3,7 @@
     + #### [Django](./Web/Backend/DJANGO.md)
  + ### Frontend  
     + #### [HTML](./Web/Frontend/HTML.md) 
+    + #### [JS](./Web/Frontend/JS.md)
 ## 2.Паттерны проектирования
  + ### [Mvc](./Patterns/MVC.md)
 ## 3.ЯП-ы
