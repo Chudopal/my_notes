@@ -200,14 +200,14 @@ class PostAdmin(admin.ModelAdmin):
 ## <a name="query_set"></a> Работа с оболочкой
 Django ORM основана на объектах запросов *QuerySet*. QuerySet – это коллекция объектов, полученных из базы данных. К ней могут быть применены фильтрация и сортировка.
 + Чтобы добавить объект в БД, необходимо открыть терминал и прописать `python manage.py shell`,затем прописать следующие строки:
-```python
->>> from django.contrib.auth.models import User
->>> from blog.models import Post
->>> user = User.objects.get(username='admin') #ищем пользователя с таким именем
->>> post = Post(title='Another post', slug='another-post',
-body='Post body.', author=user)
->>>post.save()#сохраняем объект в базу данных
-``` 
+    ```python
+    >>> from django.contrib.auth.models import User
+    >>> from blog.models import Post
+    >>> user = User.objects.get(username='admin') #ищем пользователя с таким именем
+    >>> post = Post(title='Another post', slug='another-post',
+    body='Post body.', author=user)
+    >>>post.save()#сохраняем объект в базу данных
+    ``` 
 + Чтобы получить доступ ко все объектам БД необходимо прописать `>>> all_posts = Post.objects.all()`
 + Методы сортировки:
   + *filter()*:
