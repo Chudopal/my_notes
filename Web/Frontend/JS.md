@@ -187,10 +187,11 @@ function square(x){
     console.log(Math.random());
     // → 0.40180766698904335
     ```
-+ **Global** -  каждая глобальная переменная является свойством этого объекта. В браузерах глобальная область видимости хранится в переменной window:
++ **Global** -  каждая глобальная переменная является свойством этого объекта. В браузерах глобальная область видимости хранится в переменной *window*:
 ```javascript
     var myVar = 10;
-    var myVar = 10;console.log("myVar" in window);
+    var myVar = 10;
+    console.log("myVar" in window);
     // → true
     console.log(window.myVar);
     // → 10
