@@ -208,3 +208,57 @@ console.log(greaterThan10(11));
 ```
 #### <a name="json"></a>JSON
 JSON похож на JavaScript по способу записи массивов и объектов – с некоторыми ограничениями. Все имена свойств должны быть заключены в двойные кавычки, а также допускаются только простые величины – никаких вызовов функций, переменных, ничего что включало бы вычисления. Также не допускаются комментарии.
+
++ JSON - это чисто формат данных - он содержит только свойства, без методов.
++ JSON требует двойных кавычек, которые будут использоваться вокруг строк и имен свойств. Одиночные кавычки недействительны.
++ Даже одна неуместная запятая или двоеточие могут привести к сбою JSON-файла и не работать. 
++ JSON может принимать форму любого типа данных, допустимого для включения в JSON, а не только массивов или объектов. Так, например, одна строка или номер будут действительным объектом JSON.
++ В отличие от кода JavaScript, в котором свойства объекта могут не оборачиваться в двойные кавычки, в JSON в качестве свойств могут использоваться только строки обернутые в двойные кавычки.
+Пример JSON файла:
+```javascript
+{
+  "squadName": "Super hero squad",
+  "homeTown": "Metro City",
+  "formed": 2016,
+  "secretBase": "Super tower",
+  "active": true,
+  "members": [
+    {
+      "name": "Molecule Man",
+      "age": 29,
+      "secretIdentity": "Dan Jukes",
+      "powers": [
+        "Radiation resistance",
+        "Turning tiny",
+        "Radiation blast"
+      ]
+    },
+    {
+      "name": "Madame Uppercut",
+      "age": 39,
+      "secretIdentity": "Jane Wilson",
+      "powers": [
+        "Million tonne punch",
+        "Damage resistance",
+        "Superhuman reflexes"
+      ]
+    },
+    {
+      "name": "Eternal Flame",
+      "age": 1000000,
+      "secretIdentity": "Unknown",
+      "powers": [
+        "Immortality",
+        "Heat Immunity",
+        "Inferno",
+        "Teleportation",
+        "Interdimensional travel"
+      ]
+    }
+  ]
+}
+```
+тобы получить доступ к третьей сверхспособности второго героя, указанного в списке участников, вы должны сделать следующее:
+```javascript
+superHeroes['members'][1]['powers'][2];
+```
