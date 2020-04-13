@@ -346,6 +346,7 @@ def post_share(request, post_id):
             {'post': post, 'form': form})
 
 ```
+
 ## <a name="templates"></a>Шаблоны
 Шаблоны Django - это просто текстовый файл или строка Python, которые следуют языку шаблонов Django
 Синтаксис языка шаблонов Django спользует 4 конструккции:
