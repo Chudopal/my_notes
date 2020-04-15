@@ -546,6 +546,29 @@ superHeroes['members'][1]['powers'][2];
     ul.append(...getListContent()); // append + оператор "..." = друзья!
     </script>
     ```
++ В DOM можно также устанавливать атрибуты HTML-элементам:
+  + `elem.hasAttribute(name)` – проверяет наличие атрибута
+  + `elem.getAttribute(name)` – получает значение атрибута
+  + `elem.setAttribute(name, value)` – устанавливает атрибут
+  + `elem.removeAttribute(name)` – удаляет атрибут
+    ```html
+    <body>
+      <div id="elem" about="Elephant"></div>
+
+      <script>
+        alert( elem.getAttribute('About') ); // (1) 'Elephant', атрибут получен
+
+        elem.setAttribute('Test', 123); // (2) атрибут Test установлен
+        alert( document.body.innerHTML ); // (3) в HTML видны все атрибуты!
+
+        var attrs = elem.attributes; // (4) можно получить коллекцию атрибутов
+        for (var i = 0; i < attrs.length; i++) {
+          alert( attrs[i].name + " = " + attrs[i].value );
+        }
+      </script>
+    </body>
+    ```
+
 #### <a name="events"></a>События
 + Событие – это сигнал от браузера о том, что что-то произошло. Все DOM-узлы подают такие сигналы (хотя события бывают и не только в DOM).
 + События мыши:
@@ -554,3 +577,23 @@ superHeroes['members'][1]['powers'][2];
   + `mouseover / mouseout` – когда мышь наводится на / покидает элемент.
   + `mousedown / mouseup` – когда нажали / отжали кнопку мыши на элементе.
   + `mousemove` – при движении мыши.
+
++ События можно прописывать прямо в HTML отрибутах:
+    ```html
+    <script>
+      function countRabbits() {
+        for(let i=1; i<=3; i++) {
+          alert("Кролик номер " + i);
+        }
+      }
+    </script>
+
+    <input type="button" onclick="countRabbits()" value="Считать кроликов!">
+    ```
++ Можно использовать свойства DOM объектов:
+    ```javascript
+    elem.onclick = function() {
+        alert('Нажали');
+    };
+    ```
+    Так как у элемента DOM может быть только одно свойство с именем onclick, то назначить более одного обработчика так нельзя.
