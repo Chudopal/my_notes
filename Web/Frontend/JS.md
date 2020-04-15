@@ -297,29 +297,37 @@ superHeroes['members'][1]['powers'][2];
     }
     ```
 + Свойства **`firstChild`** и **`lastChild`** показывают на первый и последний дочерние элементы и равны null, если детей нет.
+
 + Свойство **`parentNode`** указывает на родителя. Например, для <body> таким элементом является <html>.
+
 + Свойства **`previousSibling`** и **`nextSibling`** указывают на левого и правого братьев узла. Для <body> **`previousSibling`** это <head>.
+
 + **`tagName`** - свойство для получения имени тега в верхнем регистре:
     ```javascript
     alert(document.body.tagName); // => BODY
     ```
 + **`style`** - свойство для задания стилей. Есть общее правило замены - если CSS-атрибут имеет дефисы, то для установки style нужно заменить их на верхний регистр букв. 
+
 + **`innerHTML`** - свойство используется для изменения содержания внутри какого-либо тега. Оно содержит весь HTML-код внутри узла, и его можно менять:
     ```javascript
     document.getElementById('footer').innerHTML = '<h1>Bye!</h1> <p>See ya</p>';
     ```
+
 + **`createElement`** -свойство для создания элементов:
     ```javascript
     let div = document.createElement('div');
     ```
+
 + **`createTextNode`** - создает новый текстовый узел:
     ```javascript
     let textNode = document.createTextNode('А вот и я');
     ```
+
 + **`className`** - для указания имени класса:
     ```javascript
     elem.className = 'newclass';
     ```
+
 + **`append`** - необходим для вставки элемента в какой-либо тег:
     ```javascript
       let div = document.createElement('div');
@@ -328,6 +336,14 @@ superHeroes['members'][1]['powers'][2];
 
       document.body.append(div);
     ```
+    Это то же самое что и:
+    
+    ```html
+    <div class="alert">
+      <strong>Всем привет!</strong> Вы прочитали важное сообщение.
+    </div>
+    ```
+
 + **Методы для различных вариантов вставки:**
   + `node.append(...nodes or strings)` – добавляет узлы или строки в конец node,
   + `node.prepend(...nodes or strings)` – вставляет узлы или строки в начало node,
@@ -365,4 +381,44 @@ superHeroes['members'][1]['powers'][2];
       <li>append</li>
     </ol>
     after
+    ```
+    
++ **`elem.insertAdjacentHTML(where, html)`** - вставка элементов. Первый параметр – это специальное слово, указывающее, куда по отношению к elem производить вставку. Значение должно быть одним из следующих:
+  + `"beforebegin"` – вставить html непосредственно перед elem,
+  + `"afterbegin"` – вставить html в начало elem,
+  + `"beforeend"` – вставить html в конец elem,
+  + `"afterend"` – вставить html непосредственно после elem.
+  ![](./PICTURES/insert.png)
+    ```javascript
+    div.insertAdjacentHTML('beforebegin', '<p>Привет</p>');
+    div.insertAdjacentHTML('afterend', '<p>Пока</p>');
+    ```
+    Приведет к этому:
+    ```html
+    <p>Привет</p>
+    <div id="div"></div>
+    <p>Пока</p>
+    ```
+    ```html
+    <style>
+    .alert {
+      padding: 15px;
+      border: 1px solid #d6e9c6;
+      border-radius: 4px;
+      color: #3c763d;
+      background-color: #dff0d8;
+    }
+    </style>
+
+    <script>
+      document.body.insertAdjacentHTML("afterbegin", `<div class="alert">
+        <strong>Всем привет!</strong> Вы прочитали важное сообщение.
+      </div>`);
+    </script>
+    ```
+    Приведет к этому:
+    ```html
+    <div class="alert">
+      <strong>Всем привет!</strong> Вы прочитали важное сообщение.
+    </div>
     ```
