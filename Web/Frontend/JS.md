@@ -382,7 +382,7 @@ superHeroes['members'][1]['powers'][2];
     </ol>
     after
     ```
-    
+
 + **`elem.insertAdjacentHTML(where, html)`** - вставка элементов. Первый параметр – это специальное слово, указывающее, куда по отношению к elem производить вставку. Значение должно быть одним из следующих:
   + `"beforebegin"` – вставить html непосредственно перед elem,
   + `"afterbegin"` – вставить html в начало elem,
@@ -422,3 +422,60 @@ superHeroes['members'][1]['powers'][2];
       <strong>Всем привет!</strong> Вы прочитали важное сообщение.
     </div>
     ```
+
++ **`node.remove()`** - удаление узлов. Например, удалить сообщение через минуту:
+    ```html
+    <style>
+    .alert {
+      padding: 15px;
+      border: 1px solid #d6e9c6;
+      border-radius: 4px;
+      color: #3c763d;
+      background-color: #dff0d8;
+    }
+    </style>
+
+    <script>
+      let div = document.createElement('div');
+      div.className = "alert";
+      div.innerHTML = "<strong>Всем привет!</strong> Вы прочитали важное сообщение.";
+
+      document.body.append(div);
+      setTimeout(() => div.remove(), 1000);
+    </script>
+    ```
+    **Если нам нужно переместить элемент в другое место – нет необходимости удалять его со старого.Все методы вставки автоматически удаляют узлы со старых мест:**
+    ```html
+    <div id="first">Первый</div>
+    <div id="second">Второй</div>
+    <script>
+      // нет необходимости вызывать метод remove
+      second.after(first); // берёт #second и после него вставляет #first
+    </script>
+    ```
+
++ **`cloneNode`** - копирование элемента:
+  + `elem.cloneNode(true)` - глубокое копирование, то есть копируется сам элемент и его дочерние элементы.
+  + `elem.cloneNode(true)`- клон будет без дочерних элемнтов
+  ```html
+    <style>
+    .alert {
+      padding: 15px;
+      border: 1px solid #d6e9c6;
+      border-radius: 4px;
+      color: #3c763d;
+      background-color: #dff0d8;
+    }
+    </style>
+
+    <div class="alert" id="div">
+      <strong>Всем привет!</strong> Вы прочитали важное сообщение.
+    </div>
+
+    <script>
+      let div2 = div.cloneNode(true); // клонировать сообщение
+      div2.querySelector('strong').innerHTML = 'Всем пока!'; // изменить клонированный элемент
+
+      div.after(div2); // показать клонированный элемент после существующего div
+    </script>
+  ```
