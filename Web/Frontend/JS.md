@@ -134,7 +134,13 @@ function square(x){
      + ```arr.indexOf(x)``` - возвращает индекс x в этом массиве
   
 + Перебор массива:
-  + **`forEach`** - Он для каждого элемента массива вызывает функцию callback. Этой функции он передаёт три параметра `callback(item, i, arr)`:
+  + **`forEach`** - Метод forEach() выполняет функцию callback один раз для каждого элемента, находящегося в массиве в порядке возрастания. Она не будет вызвана для удалённых или пропущенных элементов массива. Однако, она будет вызвана для элементов, которые присутствуют в массиве и имеют значение undefined. 
+  Синтаксис:
+  ```javascript
+  arr.forEach(function callback(currentValue, index, array) {
+      //your iterator
+  }[, thisArg]);
+  ```
     + `item` – очередной элемент массива.
     + `i` – его номер.
     + `arr` – массив, который перебирается
@@ -144,6 +150,16 @@ function square(x){
     arr.forEach(function(item, i, arr) {
       alert( i + ": " + item + " (массив:" + arr + ")" );
     });
+    ```
+    Или так:
+    ```javascript
+    const array1 = ['a', 'b', 'c'];
+
+    array1.forEach(element => console.log(element));
+
+    // expected output: "a"
+    // expected output: "b"
+    // expected output: "c"
     ```
 
 + **Объекты** - Переменные типа object (объект) – коллекции произвольных свойств, где можно добавлять и удалять свойства объекта по желанию. Один из способов
@@ -608,7 +624,15 @@ superHeroes['members'][1]['powers'][2];
   + `handler` - Ссылка на функцию-обработчик.
   + `options` - Дополнительный объект со свойствами.
 
-+ Для удаления обработчика следует использовать `element.removeEventListener(event, handler[, options]);`.
++ Для удаления обработчика следует использовать **`element.removeEventListener(event, handler[, options]);`**:
+  ```javascript
+  var div = document.getElementById('div');
+  var listener = function (event) {
+    /* do something here */
+  };
+  div.addEventListener('click', listener, false);
+  div.removeEventListener('click', listener, false);
+  ```
 
 + События мыши для `addEventListener`:
   + `click` – происходит, когда кликнули на элемент левой кнопкой мыши (на устройствах с сенсорными экранами оно происходит при касании).
