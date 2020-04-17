@@ -213,6 +213,34 @@ function square(x){
     console.log(blackRabbit.type);
     // → чёрный
     ```
++ **Инкапсуляция** - для того, чтобы сделать свойство или метод приватным, необходимо перед ним поставить прочерк:
+  ```javascript
+  function User (name) {
+    this.name = name;
+    var _age = 1;
+    this.displayInfo = function(){
+        console.log("Имя: " + this.name + "; возраст: " + _age);
+    };
+    this.getAge = function() {
+        return _age;
+    }
+    this.setAge = function(age) {
+        if(typeof age === "number" && age >0 && age<110){
+            _age = age;
+        } else {
+            console.log("Недопустимое значение");
+        }
+    }
+  }
+  
+  var tom = new User("Том");
+  console.log(tom._age); // undefined - _age - локальная переменная
+  console.log(tom.getAge()); // 1
+  tom.setAge(32);
+  console.log(tom.getAge()); // 32
+  tom.setAge("54"); // Недопустимое значение
+  tom.setAge(123); // Недопустимое значение
+  ```
 
 
 
