@@ -289,7 +289,54 @@ function square(x){
     objArrow.hello(); // возвращает объект Window!
     ```
     **Стрелочные функции лучше всего подходят для использования их в роли обычных функций, а не методов объектов, их нельзя использовать в роли конструкторов.**
-  
+
+    В данном случае произойдет ошибка, так как `this` ссылается на определенной функции:
+    ```javascript
+    function obj(){
+      this.a = document.getElementById("abc");
+      this.arr = ["one", "two", "tree"];
+      this.a.addEventListener("click", function foo(){
+        console.log(this.arr[0]);
+          this.a.addEventListener("mousemove", function foo1() {
+            console.log(this.arr[1]);
+          });
+        });
+    }
+    var m = new obj();
+
+    ```
+    В данном случае так же произойдет ошибка:
+    ```javascript
+    function obj(){
+      this.a = document.getElementById("abc");
+      this.arr = ["one", "two", "tree"];
+      this.foo0 = function(){
+        console.log(this.arr[0]);
+        this.a.addEventListener("mousemove", this.foo1);
+      }
+      this.foo1 = function(){
+        console.log(this.arr[1]);
+      }
+      this.a.addEventListener("click", this.foo0);
+    }
+
+    var m = new obj();
+    ```
+    Однако ошибки не будет в данном случае, потому что у стрелочных функций нет своего `this` и они просто берут его из вышестоящей:
+    ```javascript
+    function obj(){
+      this.a = document.getElementById("abc");
+      this.arr = ["one", "two", "tree"];
+      this.a.addEventListener("click", (e)=>{
+        console.log(this.arr[0]);
+        this.a.addEventListener("mousemove", (e) => {
+          console.log(this.arr[1]);
+        });
+      });
+    }
+    var m = new obj();
+    ```
+
 
 + **Инкапсуляция** - для того, чтобы сделать свойство или метод приватным, необходимо перед ним поставить прочерк:
   ```javascript
