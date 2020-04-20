@@ -1,4 +1,4 @@
-# SCC - Cascading Style Sheets.
+# CSS - Cascading Style Sheets.
 позволяет отделить стильл от контента
 + [Основы SCC. Применение.](#sccforhtml)
 + [CSS в html](#cssinhtml)
