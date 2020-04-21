@@ -374,3 +374,56 @@ p.px {
 + Все элементы HTML могут рассматриваться как блоки. Блочная модель CSS представляет дизайн и верстку сайта. Она состоит из  **margins(полей), borders(границ), paddings(отступов), content(содержимого)**. Свойства работают таком порядке: **top -> right -> bottom -> left**.
 ![](./PICTURES/block_model.png)
 + *Общая высота элемента = высота + верхний отступ + нижний отступ + верхний край + нижний край + верхний край + нижний край*
++ Свойство **`border`** позволяет настраивать графницы элементов. Чтобы добавить границу к элементу, нужно указать **размер, стиль и цвет рамки**:
+    ```css
+    p {
+       padding: 10px;    
+       border: 5px solid green;
+    }
+    ```
++ Свойство **`border-width`** - указывает толщину обводки около элемента:
+    ```css
+    p.first {
+       padding: 10px;    
+       border-style: solid;
+       border-width: 2px;
+    }
+    p.second {
+       padding: 10px;    
+       border-style: solid;
+       border-width: 5px;
+    }
+    ```
+    ```css
+    p.first {
+        padding: 10px;
+        border-style: solid;
+        border-width: 2px;
+        border-color: blue;
+    }
+    p.second {
+       padding: 10px;    
+       border-style: solid;
+       border-width: 2px;
+       border-color: #FF6600;
+    } 
+    p.third {
+       padding: 10px;    
+       border-style: solid;
+       border-width: 2px;
+       border-color: rgb(0, 153, 0);
+    } 
+    ```
++ Свойство **`border-style`** для настройки обводки:
+    ```css
+    p.none {border-style: none;}
+    p.dotted {border-style: dotted;}
+    p.dashed {border-style: dashed;}
+    p.double {border-style: double;}
+    p.groove {border-style: groove;}
+    p.ridge {border-style: ridge;}
+    p.inset {border-style: inset;}
+    p.outset {border-style: outset;}
+    p.hidden {border-style: hidden;}
+    ```
+    ![](./PICTURES/border.png)
