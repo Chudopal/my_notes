@@ -2,7 +2,7 @@
 позволяет отделить стильл от контента
 + [Основы SCC. Применение.](#sccforhtml)
 + [CSS в html](#cssinhtml)
-
++ [Шрифты](#fonts)
 
 ### <a name="sccforhtml"></a> Основы SCC. Применение.
 CSS состоит из правил стилей, которые браузер интерпретирует, а затем применяет к соответствующим элементам в документе.
@@ -126,3 +126,246 @@ CSS состоит из правил стилей, которые браузер
        background-color:gray;
     }
     ```
+### <a name="fonts"></a> Шрифты
++ Свойство **`font-family`** *определяет шрифт* для элемента. Разделяя шрифты запятыми, можно   указать какой шрифт использовать в первую очередь, а какой (при отсуствии первого в системе)  испльзовать в качестве замены:
+    HTML:
+    ```html
+    <p class="serif">
+       This is a paragraph shown in serif font.
+    </p>
+    <p class="sansserif">
+       This is a paragraph shown in sans-serif font.
+    </p> 
+    <p class="monospace">
+       This is a paragraph shown in monospace font.
+    </p> 
+    <p class="cursive">
+       This is a paragraph shown in cursive font.
+    </p> 
+    <p class="fantasy">
+       This is a paragraph shown in fantasy font.
+    </p> 
+    ```
+    CSS:
+    ```css
+    p.serif {
+       font-family: "Times New Roman", Times, serif;
+    }
+    p.sansserif {
+       font-family: Helvetica, Arial, sans-serif;
+    }
+    p.monospace {
+       font-family: "Courier New", Courier, monospace;
+    }
+    p.cursive {
+       font-family: Florence, cursive;
+    }
+    p.fantasy {
+       font-family: Blippo, fantasy;
+    }
+    ```
++ Свойство **`font-size`** устанавливает *размер* шрифта:
+    + xx-small - самый маленький
+    + small - маленький
+    + medium - средний
+    + large - большой
+    + larger - самый большой.
+    Лучше использовать ключевые слова, так как каждый они адаптируются под каждый браузер или мобильное устройство:
+    HTML:
+    ```html
+    <p class="small">
+        Paragraph text set to be small
+    </p>
+    <p class="medium">
+       Paragraph text set to be medium
+    </p>
+    <p class="large">
+       Paragraph text set to be large
+    </p>
+    <p class="xlarge">
+       Paragraph text set to be very large
+    </p>
+    ```
+    CSS:
+    ```css
+    p.small {
+        font-size: small;
+    }
+    p.medium {
+       font-size: medium;
+    }
+    p.large {
+       font-size: large;
+    }
+    p.xlarge {
+       font-size: x-large;
+    }
+    ```
+    Также можно в пискелах:
+    ```css
+    h1 { 
+       font-size: 20 px ; 
+    }
+    ```
+    Или в относительных единицах
+    ```css
+    h1 { 
+       font-size: 1,25 em ; 
+    }
+    ```
++ Свойство **`font-style`** используется *для стиля текста*. Это свойство имеет 3 параметра:
+    + normal - нормальный
+    + italic - курсивный
+    + oblique - наклонный
+
+    ```css
+    p.italic {
+       font-style: italic;
+    }
+    ```
++ Свойство **`font-weight`** указывает вес шрифта:
+    + normal - обычный
+    + bold - жирный
+    + bolder - жирнее
+    + lighter - светлее
+    ```css
+    p.light {    
+        font-weight:  lighter ; 
+    } 
+    p.bold {    
+       font-weight:  bold ; 
+    } 
+    p.bolder { 
+       font-weight:  bolder ; 
+    }
+    ```
+    Так же можно указывать числом вес шрифта (от 100 до 900):
+    ```css
+    p.thicker {
+       font-weight: 700;
+    }
+    ```
++ Свойство **'color'** - для цвета:
+    ```css
+    p.example {
+       color: green;
+    }
+    h1 {
+        color: #0000FF;
+    }
+    p.example {
+       color: rgb(255,0,0);
+    }
+    ```
++ Свойство **`text-align`** - *выравнивает текст*:
+    + left - по левому краю
+    + right - по правому
+    + center - по центру
+    + justify - как в журнале, каждая строчка одинакового размера
+    ```css
+    p.left { 
+    text-align: left ; 
+    } 
+    p.right { 
+       text-align: right ; 
+    } 
+    p.center { 
+       text-align: center ; 
+    }
+    ```
++ Свойство **`vertical-align`** - выравнивает текст *вертикально*:
+    + top - вверху
+    + middle - посередине
+    + bottom - внизу
+    HTML
+    ```html
+    <table border="1" cellpadding="2" cellspacing="0" style="height: 150px;">
+      <tr>
+         <td class="top">Top</td>
+         <td class="middle">Middle</td>
+         <td class="bottom">Bottom</td>
+      </tr>
+    </table>
+    ```
+    CSS:
+    ```css
+    td.top {
+        vertical-align: top;
+    }
+    td.middle {
+       vertical-align: middle;
+    }
+    td.bottom {
+       vertical-align: bottom;
+    }
+    ```
++ Свойство **`text-decoration`** - как будет *декорирован* текст:
+    + none - обычный текст
+    + inherit - наследует это свойство от родительского элемета
+    + overline - горизонтальная линия над текстом
+    + underline - горизонтальная линия под текстом
+    + line-through - зачеркивает текст
+    ```css
+    p.none {
+        text-decoration: none;
+    }
+    p.inherit {
+       text-decoration: inherit;
+    }
+    p.overline {
+       text-decoration: overline;
+    }
+    p.underline {
+       text-decoration: underline;
+    }
+    p.line-through {
+       text-decoration: line-through;
+    }
+    ```
++ Свойство **`text-indent`** - показывает, сколько *расстояния нужно отсавить до начала первой строки*:
+```css
+p { 
+   text-indent : 60px; 
+}
+```
++ Свойство **`text-shadow`** - добавляет *тень* тексту.Он принимает четыре значения: первое значение определяет расстояние тени в направлении **x** (по горизонтали) , второе значение задает расстояние в направлении **y** (по вертикали) , третье значение определяет **размытие** тени и четвертое значение устанавливает **цвет**:
+```css
+h1 {
+   color: blue;
+   font-size: 30pt;
+   text-shadow: 5px 2px 4px grey;
+}
+```
++ Свойство **`text-transform`** *трансформирует текст*:
+    + capitalize - каждое слово с большой буквы
+    + uppercase - все буквы в верхнем регистре
+    + lowercase - все буквы в нижнем регистре
+    ```css
+    p.uppercase {
+        text-transform: uppercase;
+    }
+    p.lowercase {
+       text-transform: lowercase;
+    }
+    ``` 
++ Свойство **`letter-spacing`** - определяет *расстояние между буквами* в тексте:
+    + normal - по умолчанию
+    + length - определяет дополнительный пробел между символами, с использованием таких единиц измерения, как px, pt, cm, mm и т. д..
+    + inherit - наследует свойство от его родительского элемента;
+    ```css
+    p.positive { 
+        letter-spacing: 4px; 
+    }
+    p.negative { 
+       letter-spacing: -1.5px; 
+    } 
+    ```
++ Свойство **`word-spacing`** - *расстояние между словами*:
+```css
+p.normal { 
+   word-spacing: normal;
+}
+p.px { 
+   word-spacing: 30px;
+}
+```
