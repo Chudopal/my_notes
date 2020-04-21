@@ -427,3 +427,33 @@ p.px {
     p.hidden {border-style: hidden;}
     ```
     ![](./PICTURES/border.png)
+
++ Свойства **`width`** и **`height`** определяют ширину и высоту бокса без учета границ. Можно задавать пикселами и процентами
+    ```css
+    div {
+       border: 5px solid green;    
+       width: 90px;
+       height: 90px;
+    }
+    ```
+    Данный элемент будет 100х100.
+    + min-width - минимальная ширина элемента
+    + min-height - минимальная высота элемента
+    + max-width - максимальная ширина элемента
+    + max-height - максимальная высота элемента.
+    ```css
+    p.first {
+       border: 5px solid green;    
+       min-height: 100px;       
+    }
+    p.second {
+       border: 5px solid green;    
+       max-width: 100px;       
+    }
+    ```
++ Свойство **`background-color`** позволяет изменять цвет фона заданного тега:
+    ```css
+    body {
+        background-color: #87CEFA;
+    }
+    ```
