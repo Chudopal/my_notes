@@ -25,7 +25,7 @@ CSS состоит из правил стилей, которые браузер
         Данный пример сделает весь текст в параграфах красным и увеличит шрифт в 130%.
 + **Селекторы классов**:
     Применяются к определенным классам. В классы могу быьб объеденины много элементов. Они как ID, которое можно применить сразу к нескольким объектам. Чтобы выбрать по классу, перед селектором **ставится точка**:
-    
+
     HTML:
     ```HTML
     <div>
@@ -56,18 +56,10 @@ CSS состоит из правил стилей, которые браузер
        background-color: gray;
     }
     ```
-```HTML
-    <div id="intro">
-        <p class="first">This is a <em> paragraph.</em></p>
-        <p> This is the second paragraph. </p>
-    </div>
-    <p class="first"> This is not in the intro section.</p>
-    <p> The second paragraph is not in the intro section. </p>
-```
 
 Потомки селекторов - это селекторы, которые находятся внутри других селекторов. Можно обращатся к потомкам селекторов. Можно выбрать столько уровней, сколько надо
 
-    HTML:
+HTML:
 ```HTML
 <div id="intro">
     <p class="first">This is a <em> paragraph.</em></p>
@@ -76,7 +68,7 @@ CSS состоит из правил стилей, которые браузер
 <p class="first"> This is not in the intro section.</p>
 <p> The second paragraph is not in the intro section. </p>
 ```
-    CSS:
+CSS:
 ```CSS
 #intro .first em {
    color: pink; 
