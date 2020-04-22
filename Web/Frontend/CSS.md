@@ -457,3 +457,52 @@ p.px {
         background-color: #87CEFA;
     }
     ```
++ Свойство **`background-image`** позволяет задать *картинку фона*:
+    ```css
+    body {
+       background-image: url("css_logo.png");
+       background-color: #e9e9e9;
+    }
+    ```
+    *URL указывает путь к файлу изображения. Поддерживаются как относительные, так и абсолютные пути.*
++ Свойство **`background-repeat`** задает *повторение* какой-либо картинки на фоне. Она может повторятся вертикально, горизонтально или вообще не повторяться:
+    ```css
+    body {
+       background-image: url("css_logo.png");
+       background-repeat: repeat-x;  
+    }
+    ```
+    ```css
+    body {
+       background-image: url("css_logo.png");
+       background-repeat: repeat-y;
+    }
+    ```
++ Свойство **`background-attachment`** устанавливает, является ли фоновое изображение фиксированным или прокручивается с остальной частью страницы:
+    + fixed - фиксированное
+    + scroll - прокручивается
+    ```css
+    body {
+       background-image: url("css_logo.png");
+       background-repeat: no-repeat;
+       background-attachment: scroll;
+    }
+    ```
++ Установка стилей для **ссылок**:
+    Для ссылок можно использовать любое свойство CSS (например, color, font-family, background и т. Д.). кроме того существуют определенные псоевдоселекторы, которые помогают контролировать ссылки:
+    + a:link - непосещенная ссылка
+    + a:visited - посещенная ссылка
+    + a:active - ссылка станвится активной, если щелкнуть на нее
+    + a:hover - при наведении на ссылку.
+    HTML:
+    ```html
+    <p><a href="http://www.sololearn.com" target="_blank">
+       This link is hovered when we mouse over it
+    </a></p>
+    ```
+    CSS:
+    ```css
+    a:hover {
+       color: red;
+    }
+    ```
