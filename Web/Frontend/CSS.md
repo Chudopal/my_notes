@@ -506,3 +506,5 @@ p.px {
        color: red;
     }
     ```
++ Свойство **`cursor`** может изменять курсор:
+![](./PICTURES/cursor.png)
