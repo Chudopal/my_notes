@@ -1,10 +1,11 @@
 # HTML
 (HyperText Markup Language)
 строит структуру web-страницы.
-+ ## [HTML-элементы](#elements)
-+ ## [Типы элементов](#type_of_elements)
-+ ## [HTML-атрибуты](#attrs)
-
++ [HTML-элементы](#elements)
++ [Типы элементов](#type_of_elements)
++ [HTML-атрибуты](#attrs)
++ [SVG](#svg)
+ 
 
 ## <a name="elements"></a>HTML-элементы
 HTML-элементы - это строительные блоки любого HTML-докуманта.
@@ -77,3 +78,61 @@ HTML-докумаент может состоять из вложенных др
 ```
 В данном примере значение атрибута align "center" означает, 
 что содержимое элемента p должно быть выровняно по центру.
+
+## <a name="svg"></a> SVG
+SVG - это формат изображений, удобный для передачи векторной графики. Очень популярен в интернете, так как каждый элемент в теге `<svg>` является обектом, в отличае от элемента `<canvas>,`где, если что-то добавлено в него, оно становится часть его, к которой доступ получить невозможно. Однако `<cdnvas>`лучше подходит для форматов растровой графики. Вот некоторые эдлементы, которые можно создавать при помощи **`<svg>`**:
++ **Круг**:
+    ```html
+    <!DOCTYPE html>
+    <html>
+    <body>
+
+    <svg width="100" height="100">
+      <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
+    </svg>
+
+    </body>
+    </html>
+    ```
++ **Прямоугольник**:
+    ```html
+    <svg width="400" height="100">
+      <rect width="400" height="100" style="fill:rgb(0,0,255);stroke-width:10;stroke:rgb(0,0,0)" />
+    </svg>
+    ```
++ **Прямоугольник со скошенными углами**:
+    ```html
+    <svg width="400" height="180">
+      <rect x="50" y="20" rx="20" ry="20" width="150" height="150"
+      style="fill:red;stroke:black;stroke-width:5;opacity:0.5" />
+    </svg>
+    ```
++ **Многоугольники**:
+    ```html
+    <svg width="300" height="200">
+      <polygon points="100,10 40,198 190,78 10,78 160,198"
+      style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;" />
+    </svg>
+    ``` 
++ **Вставление стороннего HTML-элемента в SVG**:
+    ```html
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>HTML inside SVG</title>
+            <style type="text/css"></style></head>
+            <body>
+                <div>I'm a div inside the HTML</div>
+                <svg width="500" height="300" style="border:1px red solid">
+                    <foreignobject class="node" x="46" y="22" width="100" height="100">
+
+                            <div style="border:1px green solid">I'm a div inside a SVG.</div>                  
+                    </foreignobject>
+                </svg>
+                <div>Interesting! But you a Foreign Object.</div>
+            </body>
+        </html>
+    ```
+    ![](./PICTURES/htmlinsvg.png)
++ **Пути** - с их помощью можно рисовать сложные фигуры:
