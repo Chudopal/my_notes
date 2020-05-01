@@ -11,6 +11,7 @@
 + [JSON](#json)
 + [DOM](#dom)
 + [События](#events)
++ [Анимация](#anime)
 
 #### <a name="consolelog"></a>Вывод
 + В консоль:
@@ -878,3 +879,37 @@ superHeroes['members'][1]['powers'][2];
    + event.type - Тип события
    + event.currentTarget - Элемент, на котором сработал обработчик
    + event.clientX / event.clientY - Координаты курсора в момент клика относительно окна, для событий мыши
+#### <a name="anime"></a>Анимация
+Анимация реализуется через последовательность кадров, каждый из которых немного меняет HTML/CSS-свойства.
++ **SetInterval(function, interval)** - задает анимацию `function` с интервалом `interval` в милисекундах:
+  ```javascript
+  let start = Date.now(); // запомнить время начала
+
+  let timer = setInterval(function() {
+    // сколько времени прошло с начала анимации?
+    let timePassed = Date.now() - start;
+
+    if (timePassed >= 2000) {
+      clearInterval(timer); // закончить анимацию через 2 секунды
+      return;
+    }
+
+    // отрисовать анимацию на момент timePassed, прошедший с начала анимации
+    draw(timePassed);
+
+  }, 20);
+
+  // в то время как timePassed идёт от 0 до 2000
+  // left изменяет значение от 0px до 400px
+  function draw(timePassed) {
+    train.style.left = timePassed / 5 + 'px';
+  }
+  ```
+  Можно использовать сразу для нескольких анимаций:
+  ```javascript
+    setInterval(function() {
+    animate1();
+    animate2();
+    animate3();
+  }, 20)
+  ```
