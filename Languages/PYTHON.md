@@ -10,7 +10,9 @@
   + ### [Кортежи](#pulps)
   + ### [Словари](#dictionaries)
   + ### [Множества](#sets)
-
++ ## [Работа JSON](#json)
+  + ### [Чтение](#readjson)
+  + ### [Запись](#writejson)
 
 ## <a name="var_and_simple_data"></a> Переменные и простые типы данных
 Python - это язык с динамической типизацией, то есть переменные могут хранить любые типы данных без их явного указания.
@@ -186,3 +188,122 @@ dimensions = (200, 50)
  }
  ```
 ### <a name="sets"></a> Множества
+
+### <a name="json"></a> Работа с JSON
+JSON по синтаксису очень похож на Python словари и достаточно удобен для восприятия.
+В Python есть модуль, который позволяет легко записывать и читать данные в формате JSON.
+
+Предположим есть файл:
+```python
+{
+  "access": [
+    "switchport mode access",
+    "switchport access vlan",
+    "switchport nonegotiate",
+    "spanning-tree portfast",
+    "spanning-tree bpduguard enable"
+  ],
+  "trunk": [
+    "switchport trunk encapsulation dot1q",
+    "switchport mode trunk",
+    "switchport trunk native vlan 999",
+    "switchport trunk allowed vlan"
+  ]
+}
+```
+### <a name="readjson></a> Чтение
+Для чтения есть 2 метода:
++ **json.load()** - метод считывает *файл* в формате JSON и возвращает объекты Python:
+  ```python
+  import json
+
+  with open('sw_templates.json') as f:
+      templates = json.load(f)
+
+  print(templates)
+
+  for section, commands in templates.items():
+      print(section)
+      print('\n'.join(commands))
+  ```
+  Вывод:
+  ```python
+  $ python json_read_load.py
+  {'access': ['switchport mode access',   'switchport access vlan', 'switchport   nonegotiate', 'spanning-tree portfast',   'spanning-tree bpduguard enable'], 'trunk':   ['switchport trunk encapsulation dot1q',  'switchport mode trunk', 'switchport trunk   native vlan 999', 'switchport trunk allowed   vlan']}
+  access
+  switchport mode access
+  switchport access vlan
+  switchport nonegotiate
+  spanning-tree portfast
+  spanning-tree bpduguard enable
+  trunk
+  switchport trunk encapsulation dot1q
+  switchport mode trunk
+  switchport trunk native vlan 999
+  switchport trunk allowed vlan
+  ```
++ **json.loads()** - метод считывает *строку* в формате JSON и возвращает объекты Python:
+  ```python
+  import json
+
+  with open('sw_templates.json') as f:
+      file_content = f.read()
+      templates = json.loads(file_content)
+
+  print(templates)
+
+  for section, commands in templates.items():
+      print(section)
+      print('\n'.join(commands))
+  ```
+  Результат будет аналогичным прошлому выводу.
+### <a name="writejson></a> Запись
+Для записи существует 2 метода:
++ **json.dump()** - метод записывает объект Python в файл в формате JSON. Подходит когда необходимо записать json в файл:
+```python
+import json
+
+trunk_template = [
+    'switchport trunk encapsulation dot1q', 'switchport mode trunk',
+    'switchport trunk native vlan 999', 'switchport trunk allowed vlan'
+]
+
+access_template = [
+    'switchport mode access', 'switchport access vlan',
+    'switchport nonegotiate', 'spanning-tree portfast',
+    'spanning-tree bpduguard enable'
+]
+
+to_json = {'trunk': trunk_template, 'access': access_template}
+
+with open('sw_templates.json', 'w') as f:
+    json.dump(to_json, f)
+
+with open('sw_templates.json') as f:
+    print(f.read())
+```
++ **json.dumps()** - метод возвращает строку в формате JSON. Подходит когда нажно передать json, например, API:
+```python
+import json
+
+trunk_template = [
+    'switchport trunk encapsulation dot1q', 'switchport mode trunk',
+    'switchport trunk native vlan 999', 'switchport trunk allowed vlan'
+]
+
+access_template = [
+    'switchport mode access', 'switchport access vlan',
+    'switchport nonegotiate', 'spanning-tree portfast',
+    'spanning-tree bpduguard enable'
+]
+
+to_json = {'trunk': trunk_template, 'access': access_template}
+
+with open('sw_templates.json', 'w') as f:
+    f.write(json.dumps(to_json))
+
+with open('sw_templates.json') as f:
+    print(f.read())
+```
+
+**В формат JSON нельзя записать словарь, у которого ключи - кортежи**
