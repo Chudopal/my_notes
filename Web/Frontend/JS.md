@@ -916,3 +916,42 @@ superHeroes['members'][1]['powers'][2];
   ```
 #### <a name="request></a> Запросы
 JavaScript может отправлять сетевые запросы на сервер и подгружать новую информацию по мере необходимости.
+Для сетевых запросов из JavaScript есть технология «AJAX» (аббревиатура от Asynchronous JavaScript And XML).
+
+AJAX встроен в jqury и вызывается из него достаточко просто:
++ Запрос только на получение данных 
+```javascript
+$.ajax({
+      url: "/edit-graph/graph/",
+      success: function(data){
+        console.log( "Прибыли данные: " + data );
+      }
+    });
+```
++ Запрос,котрый отправляет данные и получает ответ:
+```javascript 
+$.ajax({
+      url: "/edit-graph/graph/",
+      data: {
+        "a": "AAAAAAAAAAAAAAAAA",
+        "b": "BBBBBBBBBBBBBBBBB"
+      },
+      success: function(data){
+        console.log( "Прибыли данные: " + data );
+      }
+    });
+```
++ По умолчанию все запросы являются **GET**, однако это можно изменить при помощи свойства `type`:
+```javascript
+$.ajax({
+      type: "POST",
+      url: "/edit-graph/graph/",
+      data: {
+        "a":"A",
+        "b":"B"// from form
+      },
+      success: function(data){
+        console.log( "Прибыли данные: " + data );
+      }
+    });
+```
