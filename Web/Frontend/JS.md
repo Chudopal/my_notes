@@ -914,7 +914,7 @@ superHeroes['members'][1]['powers'][2];
     animate3();
   }, 20)
   ```
-#### <a name="request></a> Запросы
+#### <a name="request>Запросы</a> 
 JavaScript может отправлять сетевые запросы на сервер и подгружать новую информацию по мере необходимости.
 Для сетевых запросов из JavaScript есть технология «AJAX» (аббревиатура от Asynchronous JavaScript And XML).
 
