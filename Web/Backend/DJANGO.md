@@ -362,6 +362,30 @@ def post_share(request, post_id):
 + Вызов метода
 + Индекс списка
 Если переменная не найдена, шаблон вставит значение из настройки TEMPLATE_STRING_IF_INVALID, которая равна '' (пустой строке) по-умолчанию.
+
+Передача переменных производится при помощи передачи словаря с переменными в функцию **render()**, он присвивается свойству **context**:
++ views.py:
+    ```python
+    from django.shortcuts import render
+
+    def index(request):
+        data = {"header": "Hello Django",   "message": "Welcome to Python"}
+        return render(request, "index.html",    context=data)
+    ```
++ index.html:
+    ```html
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Hello Django</title>
+    </head>
+    <body>
+        <h2>{{ header }}</h2>
+        <p>{{ message }}</p>
+    </body>
+    </html>
+    ```
 ### <a name="filters"></a>Фильтры
 Вы можете изменить значение переменной используя фильтры.
 
