@@ -305,7 +305,7 @@ def post_list(request):
 ```
 
 
-## <a name=django_forms></a> Django-forms
+## <a name="django_forms"></a> Django-forms
 
 Django имеет встроенную *подсистему* форм, которая позволяет легко управлять ими.
 Эта подсистема дает возможность описать поля формы, указать, как они будут
@@ -347,7 +347,7 @@ def post_share(request, post_id):
 
 ```
 
-## <a name="templates">Шаблоны</a>
+## <a name="templates"></a>Шаблоны
 Шаблоны Django - это просто текстовый файл или строка Python, которые следуют языку шаблонов Django
 Синтаксис языка шаблонов Django спользует 4 конструккции:
 + Переменные: `{{variable}}`
