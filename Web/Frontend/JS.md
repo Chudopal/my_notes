@@ -525,6 +525,7 @@ JSON похож на JavaScript по способу записи массиво�
 ```javascript
 superHeroes['members'][1]['powers'][2];
 ```
+
 + **`JSON.stringify`**: объекты JS легко можно конвертировать в JSON, применяя применяя данную фунцию: 
   ```javascript
   let student = {
@@ -556,7 +557,7 @@ superHeroes['members'][1]['powers'][2];
   let user = '{ "name": "John", "age": 35, "isAdmin": false, "friends": [0,1,2,3] }';
 
   user = JSON.parse(user);
-  
+
   alert( user.friends[1] ); // 1
   ```
 #### <a name="dom"></a>DOM
