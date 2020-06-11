@@ -22,6 +22,7 @@
   + [Переменные](#var)
   + [Фильтры](#filters)
   + [Теги](#tags)
++ [Как пакетировать приложение](#package)
 + [Развертывание](#deployment)
 
 ## <a name="settings_of_env"></a> Настройка виртуальной среды
@@ -93,7 +94,7 @@ blog/
     tests.py            - файл для тестов приложения.
     views.py            - вся логика хранится здесь.
 ```
-Чтобы приложение blog было видно Django, необходимо добавить 
++ Чтобы приложение blog было видно Django, необходимо добавить 
 *blog.apps.BlogConfig* в настройку INSTALLED_APPS в файле settings.py. 
 Класс BlogConfig – это конфигурация приложения.
 
@@ -296,7 +297,12 @@ def post_list(request):
     path('blog/', include('blog.urls', namespace='blog')),#именно здесь мы добавили юрлы приложения
     ]
 ```
+
 **`include - подключает конфигурацию приложения.`**
+
+**`RedirectView.as_view(url='/catalog/', permanent=True))` - перенаправляет с корневого URLa в данном приложении на указанный в дужках**
+
+**`static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)` - используется для разрешения статических файлов**
 
 В Django есть соглашение о том, что метод модели get_absolute_url() должен возвращать канонический URL объекта:
 ```python
@@ -307,6 +313,7 @@ def post_list(request):
         return reverse('blog:post_detail', args=[self.publish.year,
         self.publish.month, self.publish.day, self.slug])
 ```
+
 
 
 ## <a name="django_forms"></a> Django-forms
@@ -405,4 +412,5 @@ def post_share(request, post_id):
 В **settings.py**:
   + **DEBUG** - при развертывании сайта должен быть установлен в **False** (DEBUG = False). Тем самым, прекратится вывод  важной отладочной информации.
   + **SECRET_KEY** - важно, чтобы ключ, используемый в продакшине, не указывался в исходном коде, и/или не запрашивался с другого сервера. Django рекомендует размещать значение ключа либо в переменной окружения, или в файле с доступом только на чтение.
-  
+
+## <a name="package"><a> Как пакетировать приложение
