@@ -82,65 +82,65 @@ Cache-Control: no-cache
 
 + В REST, данные, которые мы обрабатываем, называются **ресурсами**. Чтобы было проще использовать ресурсы, стоит следовать некоторым правилам именования API. 
 
-+ Ресурс может быть **singleton или colection**. Например, user -  singleton, users - collection. Можно назвать ресурс collection как `/users`, а ресурс singleton как `/users/{id}`. Так же у конкретного user может быть sub-collection: `/users/{id}/posts/{id}` - ресурс конкретного post, конкретного  user.
++ Ресурс может быть **singleton или colection**. Например, user -  singleton, users - collection. Можно назвать ресурс collection как `/users`, а ресурс singleton как `/users/{id}`. Также у конкретного user может быть sub-collection: `/users/{id}/posts/{id}` - ресурс конкретного post, конкретного  user.
 
 + Некоротые правила именования ресурса:
-    + Использовать вместо глаголов существительные. Главная причина - существительные имеют свойства, а глаголы - нет:
+    + Использовать вместо глаголов **существительные**. Главная причина - существительные имеют свойства, а глаголы - нет:
     ```
     http://api.example.com/users
-    http://api.example.com/users.{id}
+    http://api.example.com/users/{id}
     ```
 
-    + При получении singleton'a необходимо указывать его как экземпляр из collection:
+    + При получении singleton'a необходимо указывать его **экземпляр** из collection:
     ```
-    http://api.example.com/users/{id}
-    http://api.example.com/files/license-2018
+    http://api.example.com/users/{id}           #ПОЛУЧИТЬ ПО ID
+    http://api.example.com/files/license-2018   #ПОЛУЧИТЬ ПО УНИКАЛЬНОМУ ИМЕНИ
     ```
     
-    + Чтобы обозначать collection, необходимо использовать множетсвенное число:
+    + Чтобы обозначать collection, необходимо использовать **множетсвенное число**:
     ```
     http://api.example.com/users
     http://api.example.com/users/{id}/posts
     ```
 
-    + Для управления ресурсами используются глаголы:
+    + **Для управления** ресурсами используются **глаголы**:
     ```
     http://api.example.com/users/{id}/projects/{id}/run
     http://api.example.com/user/{id}/playlists/{id}/play
     ```
 
-    + Для указания пути используется "/". Обратный слеш указыват иерархию между ресурсами:
+    + Для указания пути используется обратный слеш ("**/**"). Обратный слеш указыват иерархию между ресурсами:
     ```
     http://api.example.com/users/{id}/posts
     ```
 
-    + Путь не должен заканчиваться обратным слешем:
+    + Путь **не должен заканчиваться обратным слешем**:
     ```
     http://api.example.com/users/{id}/posts/ #ПЛОХО
     http://api.example.com/users/{id}/posts  #ХОРОШО
     ```
 
-    + Дефисы - хороший способ разделять слова:
+    + **Дефисы** - хороший способ **разделять** слова:
     ```
     http://api.example.com/users/accessLevels  #ПЛОХО
     http://api.example.com/users/access-levels #ХОРОШО
     ```
 
-    + Исользовать только нижний регистр:
+    + Исользовать только **нижний регистр**:
     ```
     http://api.example.com/home/my-file #ХОРОШО
     http://API.EXAMPLE.COM/home/my-file #ПЛОХО 
     http://api.example.com/Home/My-File #ПЛОХО
     ```
-    В данном случае представлены 3 одинаковых API, однако 3й может еще и вызвать проблемы в зависимости от реализации и типа сервера
+    *В данном случае представлены 3 одинаковых API, однако 3й может еще и вызвать проблемы в зависимости от реализации и типа сервера*
 
-    + Никогда не указвается расширение сервера:
+    + Никогда **не указвается расширение** файла:
     ```
     http://api.example.com/files/license.pdf #ПЛОХО
     http://api.example.com/files/license     #ХОРОШО
     ```
 
-    + Использовать  query-компоненты(?, &) для фильтрации запросов:
+    + Использовать **query-компоненты(?, &)** для фильтрации запросов:
     ```
     http://api.example.com/projects/{id}/run?lang=cpp
     http://api.example.com/projects/{id}/run?lang=cpp&type=gcc
