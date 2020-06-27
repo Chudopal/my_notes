@@ -1,6 +1,7 @@
 # REST (REpresentational State Transfer)
 **REST - архитектурный стиль взаимодействия компонентов распределённого приложения в сети.**
 + [RESTful API](#restful)
++ [HTTP](#http)
 
 ## <a name="restful"></a> RESTful API
 + REST - это архитектурный стиль, который часто используется для связи в веб-сервисной разработке. REST сам по себе очень гибкий, однако разработчики используют определенные практики при разработке REST API. REST имеет возможность управлять различными типами запросов и возвращать разные типы данных (типа **JSON** или **XML**)
@@ -12,6 +13,43 @@
     https://graph.facebook.com/v3.0/{user-id}
     ``` 
 + Запрос на получение Google Geolocate API:
-```
-https://maps.googleapis.com/maps/api/geocode/json
-```
+    ```
+    https://maps.googleapis.com/maps/api/geocode/json
+    ```
+## <a name="http"></a> HTTP
++ HTTP(Hypertext Transfer Protocol) - это протокол прикладного уровня для передачи гепермедиа документов. По умолчанию HTTP построен на клиент-серверной модели, где клиент делает запрос серверу и ждет ответа. Ответ содержит информацию о состоянии завершения запроса и запрошенное содержимое в теле сообщения.
++ HTTP не сохраняет состояние! То есть всю необходиую для ответа информацию необходимо соедержать в одном запросе, а не посылать несколько.
++ HTTP сообщение - это блок данных, пересылаемых между HTTP-приложениями. Каждое сообщение содержит либо запрос от клиента, либо ответ от сервера. Ответ и запрос состоят из 3-х частей:
+    + *Начальная строка* - описывает сообщение.
+    + Необязательный *заголовок* - содержит атрибуты
+    + Необязательное *тело* - содержит данные.
+
+Примеры:
++ Запрос:
+    ```
+    GET http://www.w3schools.com/ HTTP/1.1
+    Host: www.w3schools.com
+    Connection: keep-alive
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) 
+    Accept-Encoding: gzip,deflate,sdch
+    Accept-Language: en-US;q=0.8,en;q=0.6
+    Cookie: __gads=ID=42213729da4df8df:T=1368250765:S=ALNI_MaOAFe3U1T9Syh; 
+    (empty line)
+    (message body goes here)
+    ```
++ Ответ:
+    ```
+    HTTP/1.1 200 OK
+    Cache-Control: private
+    Content-Type: text/html
+    Content-Encoding: gzip
+    Vary: Accept-Encoding
+    Server: Microsoft-IIS/7.5
+    Set-Cookie: ASPSESSIONIDQQRBACTR=FOCCINICEFAMEKODNKIBFOJP; path=/
+    X-Powered-By: ASP.NET
+    Date: Sun, 04 Aug 2013 13:33:59 GMT
+    Content-Length: 8434
+    (empty line)
+    (page content follows)
+    ```
