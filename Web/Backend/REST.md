@@ -1,9 +1,11 @@
 # REST (REpresentational State Transfer)
 **REST - архитектурный стиль взаимодействия компонентов распределённого приложения в сети.**
+
 + [RESTful API](#restful)
 + [HTTP](#http)
 + [HTTP заголовок](#httpheader)
 + [Архитектурные ограницения REST](#restconstraint)
++ [Структура ресурса и его именование](#resourcestructure)
 
 ## <a name="restful"></a> RESTful API
 + REST - это архитектурный стиль, который часто используется для связи в веб-сервисной разработке. REST сам по себе очень гибкий, однако разработчики используют определенные практики при разработке REST API. REST имеет возможность управлять различными типами запросов и возвращать разные типы данных (типа **JSON** или **XML**)
@@ -75,3 +77,80 @@ Cache-Control: no-cache
 ## <a name="restconstraint"> </a> Архитектурные ограничения REST
 + REST предпологает, что приложения используют HTTP, как это изначально предпологалось. То есть для поиска данных используется **GET**, для создания - **POST**, для изменения - **PUT**, для удаления - **DELETE**. REST позволяет осуществлять независимую эволюцию приложений без сервисов, моделей или действий, тесно связанных с самим уровнем API.
 + Разрабатывая REST API, необходимо, чтобы все клиент-серверные взаимодействия не зависили от состояний друг-друга. Сервер не должен хранить ничего о последнем запросе с клиента. **Он должен обрабатывать каждый запрос как новый.** Если клиентское приложение нуждается в сохранении информации конечного пользователя, то оно должно в каждом запросе содержать информацию об этом пользователе (включая данные аутенфикации и авторизации).
+
+## <a name="resourcestructure"></a> Структура ресурса и его именование
+
++ В REST, данные, которые мы обрабатываем, называются **ресурсами**. Чтобы было проще использовать ресурсы, стоит следовать некоторым правилам именования API. 
+
++ Ресурс может быть **singleton или colection**. Например, user -  singleton, users - collection. Можно назвать ресурс collection как `/users`, а ресурс singleton как `/users/{id}`. Так же у конкретного user может быть sub-collection: `/users/{id}/posts/{id}` - ресурс конкретного post, конкретного  user.
+
++ Некоротые правила именования ресурса:
+    + Использовать вместо глаголов существительные. Главная причина - существительные имеют свойства, а глаголы - нет:
+    ```
+    http://api.example.com/users
+    http://api.example.com/users.{id}
+    ```
+
+    + При получении singleton'a необходимо указывать его как экземпляр из collection:
+    ```
+    http://api.example.com/users/{id}
+    http://api.example.com/files/license-2018
+    ```
+    
+    + Чтобы обозначать collection, необходимо использовать множетсвенное число:
+    ```
+    http://api.example.com/users
+    http://api.example.com/users/{id}/posts
+    ```
+
+    + Для управления ресурсами используются глаголы:
+    ```
+    http://api.example.com/users/{id}/projects/{id}/run
+    http://api.example.com/user/{id}/playlists/{id}/play
+    ```
+
+    + Для указания пути используется "/". Обратный слеш указыват иерархию между ресурсами:
+    ```
+    http://api.example.com/users/{id}/posts
+    ```
+
+    + Путь не должен заканчиваться обратным слешем:
+    ```
+    http://api.example.com/users/{id}/posts/ #ПЛОХО
+    http://api.example.com/users/{id}/posts  #ХОРОШО
+    ```
+
+    + Дефисы - хороший способ разделять слова:
+    ```
+    http://api.example.com/users/accessLevels  #ПЛОХО
+    http://api.example.com/users/access-levels #ХОРОШО
+    ```
+
+    + Исользовать только нижний регистр:
+    ```
+    http://api.example.com/home/my-file #ХОРОШО
+    http://API.EXAMPLE.COM/home/my-file #ПЛОХО 
+    http://api.example.com/Home/My-File #ПЛОХО
+    ```
+    В данном случае представлены 3 одинаковых API, однако 3й может еще и вызвать проблемы в зависимости от реализации и типа сервера
+
+    + Никогда не указвается расширение сервера:
+    ```
+    http://api.example.com/files/license.pdf #ПЛОХО
+    http://api.example.com/files/license     #ХОРОШО
+    ```
+
+    + Использовать  query-компоненты(?, &) для фильтрации запросов:
+    ```
+    http://api.example.com/projects/{id}/run?lang=cpp
+    http://api.example.com/projects/{id}/run?lang=cpp&type=gcc
+    ```
+
+    + Не использовать имена из CRUD (create, read, update, delete). Ничего в URL не должно показывать, какое действие исполняется:
+    ```
+    GET http://api.example.com/users            #Получить всех users
+    POST http://api.example.com/users           #Создать нового user
+    GET http://api.example.com/users/{id}       #Получить конкретного user
+    PUT http://api.example.com/users/{id}       #Изменить конкретного user
+    DELETE http://api.example.com/users/{id}    #Удалить конкретного user
+    ```
