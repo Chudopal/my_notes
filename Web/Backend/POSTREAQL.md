@@ -12,6 +12,7 @@
         Id serial primary key, 
         Name character varying(30), 
         Age integer
-);``` 
+);
+``` 
 + **`INSERT INTO users (Name, Age) VALUES ('Tom', 33);`** - добавление нового элемента в таблицу, Id добавится автоматически, так как является первичным ключем;
 + **`SELECT * FROM users;`** - вывести все записи в таблице users;
