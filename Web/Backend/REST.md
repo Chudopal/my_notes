@@ -154,3 +154,4 @@ Cache-Control: no-cache
     PUT http://api.example.com/users/{id}       #Изменить конкретного user
     DELETE http://api.example.com/users/{id}    #Удалить конкретного user
     ```
+
