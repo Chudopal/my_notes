@@ -7,6 +7,7 @@
 + [Внешний ключ](#forign)
 + [Изменение таблицы](#changetable)
 + [Добавление данных](#addeddata)
++ [Получение данных](#select)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -351,4 +352,25 @@
     INSERT INTO Products 
     (ProductName, Manufacturer, Price, ProductCount) 
     VALUES('Desire 12', 'HTC', 8, 21000) RETURNING id;
+    ```
+### <a name="select"></a> Получение данных
++ **`SELECT ... FROM ... ;`** - конструкция для получения данных из таблицы:
+    ```
+    SELECT * FROM Products;
+    ```
+    получени выбранных столбцов из бд
+    ```
+    SELECT ProductName, Price FROM Products;
+    ```
++ при выборе данных, **можно производить операции над данными**, например умножение `Price` на `ProductCount`:
+    ```
+    SELECT ProductCount, Manufacturer, Price * ProductCount
+    FROM Products;
+    ```
++ **`AS`** - определение псефдонима для столбцов:
+    ```
+    SELECT ProductCount AS Title, 
+    Manufacturer, 
+    Price * ProductCount  AS TotalSum
+    FROM Products;
     ```
