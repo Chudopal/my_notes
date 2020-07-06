@@ -8,6 +8,7 @@
 + [Изменение таблицы](#changetable)
 + [Добавление данных](#addeddata)
 + [Получение данных](#select)
++ [Фильтрация](#where)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -373,4 +374,59 @@
     Manufacturer, 
     Price * ProductCount  AS TotalSum
     FROM Products;
+    ```
+
+### <a name="where"> </a> Фильтрация
++ **`SELECT ... FROM ... WHERE ... ;`** - конструкция для фильтрации данных, выводимх в запросе:
+    ```
+    SELECT * FROM Products
+    WHERE Manufacturer = 'Apple';
+    ```
++ **Операторы сравнения**:
+    + **`=`** - сравнение на равенство;
+    + **`<>`** - сравнение на неравенство
+    + **`<`** - меньше чем
+    + **`>`** - больше чем
+    + **`!<`** - не меньше
+    + **`!>`** - не больше
+    + **`<=`** - меньше че
+    + **`>=`** - больше чем или равно
+    ```
+    SELECT * FROM Products
+    WHERE Price < 39000;
+    ```
+    Для сравнения могут исплользоваться конструкции посложнее
+    ```
+    SELECT * FROM Products
+    WHERE Price * ProductCount > 90000;
+    ```
++ **Логические операторы**:
+    + **`AND`** - логическое "И":
+        ```выражение1 AND выражение2```
+    + **`OR`** - логическое "ИЛИ"
+        ```выражение1 OR выражение2```
+    + **`NOT`** - логическое "НЕ";
+        ```NOT выражение```
+    ```
+    SELECT * FROM Products
+    WHERE Manufacturer = 'Samsung' AND Price > 50000;
+    ```
+    ```
+    SELECT * FROM Products
+    WHERE NOT Manufacturer = 'Samsung';
+    ```
+    ```
+    SELECT * FROM Products
+    WHERE Manufacturer = 'Samsung' OR Price > 30000 AND ProductCount > 2;
+    ```
+    **Так как оператор AND имеет более высокий приоритет, то сначала будет выполняться подвыражение Price > 30000 AND ProductCount > 2, и только потом оператор OR. То есть здесь выбираются товары, которыех на складе больше 2 и у которых одновременно цена больше 30000, либо те товары, производителем которых является Samsung.**
++ **`IS NULL`** - используется для проверки на отсуствие значения, **не эквивалентен `""`**:
+    ```
+    SELECT * FROM Products
+    WHERE ProductCount IS NULL;
+    ```
+    наоборот
+    ```
+    SELECT * FROM Products
+    WHERE ProductCount IS NOT NULL;
     ```
