@@ -3,11 +3,13 @@
 
 + [Основные команды](#basic_commands)
 + [Типы данных](#data_types)
++ [Первичный ключ](#primarykey)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
 + **`\q`** - выход из СУБД;
 + **`CREATE DATABASE test;`** - создать базу данных test. Если не поставить точку с запятой СУБД будет думать, что команда не закончена;
++ **`\c test`** - перейти к бд. Сокращенно от connection
 + создание новой таблицы users с 3-мя полями: *Id, Name, Age* :
     ```
     CREATE TABLE users (
@@ -54,3 +56,150 @@
 **JSONB**     | хранит данные json в бинарном формате.
 **XML**       | хранит даные в формате XML.
 
+### <a name='primarykey'></a> Первичный ключ
++ **`PRIMARY KEY`** - сделать столбец первичным ключем. Первичный уникально идентифицирует строку в таблице:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        FirstName CHARACTER VARYING(30),
+        LastName CHARACTER VARYING(30),
+        Email CHARACTER VARYING(30),
+        Age INTEGER
+    )
+    ```
+    Или так
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL,
+        FirstName CHARACTER VARYING(30),
+        LastName CHARACTER VARYING(30),
+        Email CHARACTER VARYING(30),
+        Age INTEGER,
+        PRIMARY KEY(Id)
+    );
+    ```
+    Первичный ключ может быть составным, такое может понадобиться если нужно, чтобы два столбца вместе уникально идентифицировали строку в таблице, OrderId и ProductId вместе выступают как составной первичный ключ.:
+    ```
+    CREATE TABLE OrderLines
+    (
+        OrderId INTEGER,
+        ProductId INTEGER,
+        Quantity INTEGER,
+        Price MONEY,
+        PRIMARY KEY(OrderId, ProductId)
+    );
+    ```
++ **`UNIQUE`** - запрещает добавлять в разные слобцы одинаковое значение:
+    ```
+    CREATE TABLE Customers
+    (
+        Id INT PRIMARY KEY IDENTITY,
+        Age INT,
+        FirstName NVARCHAR(20),
+        LastName NVARCHAR(20),
+        Email VARCHAR(30) UNIQUE,
+        Phone VARCHAR(20) UNIQUE
+    )
+    ```
+    Или так
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        FirstName CHARACTER VARYING(20),
+        LastName CHARACTER VARYING(20),
+        Email CHARACTER VARYING(30),
+        Phone CHARACTER VARYING(30),
+        Age INTEGER,
+        UNIQUE(Email, Phone)
+    );
+    ```
+    Или так
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        FirstName CHARACTER VARYING(20),
+        LastName CHARACTER VARYING(20),
+        Email CHARACTER VARYING(30),
+        Phone CHARACTER VARYING(30),
+        Age INTEGER,
+        UNIQUE(Email), 
+        UNIQUE(Phone)
+    );
+    ```
++ **`NULL | NOT NULL`** - NULL - столбец может содержать пустые строки. По умолчанию всезде стоит NULL, кроме столбца с первичным ключем:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        FirstName CHARACTER VARYING(20) NOT NULL,
+        LastName CHARACTER VARYING(20) NOT NULL,
+        Age INTEGER
+    );
+    ```
++ **`DEFAULT`** - определяет значение столбца по умолчнию:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        FirstName VARCHAR(20),
+        LastName VARCHAR(20),
+        Age INTEGER DEFAULT 18
+    );
+    ```
++ **`CHECK`** - задает проверку, если данные ей соотвествуют, то они записываются в строку:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        FirstName VARCHAR(20),
+        LastName VARCHAR(20),
+        Age INTEGER DEFAULT 18 CHECK(Age >0 AND Age < 100),
+        Email VARCHAR(30) UNIQUE CHECK(Email !=''),
+        Phone VARCHAR(20) UNIQUE CHECK(Phone !='')
+    );
+    ```
+    Или так
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        Age INTEGER DEFAULT 18,
+        FirstName VARCHAR(20),
+        LastName VARCHAR(20),
+        Email VARCHAR(30) UNIQUE,
+        Phone VARCHAR(20) UNIQUE,
+        CHECK((Age >0 AND Age<100) AND (Email !='') AND (Phone !=''))
+    );
+    ```
++ **`CONSTRAINT`** - задает имена для ограничений. Потом по данным именам можно данные ограниыения изменять или удалять:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL CONSTRAINT customer_Id PRIMARY KEY,
+        Age INTEGER CONSTRAINT customers_age_check CHECK(Age >0 AND Age < 100),
+        FirstName VARCHAR(20) NOT NULL,
+        LastName VARCHAR(20) NOT NULL,
+        Email VARCHAR(30) CONSTRAINT customers_email_key UNIQUE,
+        Phone VARCHAR(20) CONSTRAINT customers_phone_key UNIQUE
+    );
+    ```
+    Или так:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL,
+        Age INTEGER,
+        FirstName VARCHAR(20) NOT NULL,
+        LastName VARCHAR(20) NOT NULL,
+        Email VARCHAR(30),
+        Phone VARCHAR(20),
+        CONSTRAINT customer_Id PRIMARY KEY(Id),
+        CONSTRAINT customers_age_check CHECK(Age >0 AND Age < 100),
+        CONSTRAINT customers_email_key UNIQUE(Email),
+        CONSTRAINT customers_phone_key UNIQUE(Phone)
+    );
+    ```
