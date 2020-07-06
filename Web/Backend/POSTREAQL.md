@@ -4,6 +4,7 @@
 + [Основные команды](#basic_commands)
 + [Типы данных](#data_types)
 + [Первичный ключ](#primarykey)
++ [Внешний ключ](#forign)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -201,5 +202,79 @@
         CONSTRAINT customers_age_check CHECK(Age >0 AND Age < 100),
         CONSTRAINT customers_email_key UNIQUE(Email),
         CONSTRAINT customers_phone_key UNIQUE(Phone)
+    );
+    ```
+
+### <a name="forign"></a> Внешний ключ
++ Для связи между таблицами применяются **внешние ключи**. Внешний ключ устанавливается для столбца из зависимой, **подчиненной таблицы** (referencing table), и указывает на один из столбцов **главной таблицы** (referenced table). Как правило, внешний ключ указывает на **первичный ключ** из связанной **главной таблицы**;
++ **`REFERENCES`** - слово для создания внешнего ключа. Customers является главной и представляет клиента. Orders является зависимой и представляет заказ, сделанный клиентом. Эта таблица через столбец CustomerId связана с таблицей Customers и ее столбцом Id. То есть столбец CustomerId является внешним ключом, который указывает на столбец Id из таблицы Customers.:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        Age INTEGER, 
+        FirstName VARCHAR(20) NOT NULL
+    );
+    
+    CREATE TABLE Orders
+    (
+        Id SERIAL PRIMARY KEY,
+        CustomerId INTEGER REFERENCES Customers (Id),
+        Quantity INTEGER
+    );
+    ```
+    Или так:
+    ```
+    CREATE TABLE Customers
+    (
+        Id SERIAL PRIMARY KEY,
+        Age INTEGER, 
+        FirstName VARCHAR(20) NOT NULL
+    );
+    
+    CREATE TABLE Orders
+    (
+        Id SERIAL PRIMARY KEY,
+        CustomerId INTEGER,
+        Quantity INTEGER,
+        FOREIGN KEY (CustomerId) REFERENCES Customers (Id)
+    );
+    ```
++ **`ON DELETE`** и **`ON UPDATE`** - можно установить действия, которые выполняются соответственно при удалении и изменении связанной строки из главной таблицы. Существуют следующие опции:
+    Опция         | Описание
+    ------------- | -------------
+    **`CASCADE`** | **автоматически** удаляет или изменяет строки из зависимой таблицы при удалении или изменении связанных строк в главной таблице.
+    **`RESTRICT`**| **предотвращает** какие-либо действия в зависимой таблице при удалении или изменении связанных строк в главной таблице. **То есть фактически какие-либо действия отсутствуют.**
+    **`NO ACTION`** | действие по умолчанию, предотвращает какие-либо действия в зависимой таблице при удалении или изменении связанных строк в главной таблице. И генерирует ошибку. **В отличие от RESTRICT выполняет отложенную проверку на связанность между таблицами.**
+    **`SET NULL`** | при удалении связанной строки из главной таблицы **устанавливает для столбца внешнего ключа значение NULL**.
+    **`SET DEFAULT`** | при удалении связанной строки из главной таблицы устанавливает для столбца внешнего ключа **значение по умолчанию**, которое задается с помощью атрибуты DEFAULT. Если для столбца не задано значение по умолчанию, то в качестве него применяется значение **NULL**.
++ **Каскаднеое удаление** - по умолчанию, если на строку из главной таблицы по внешнему ключу ссылается какая-либо строка из зависимой таблицы, **то мы не сможем удалить эту строку из главной таблицы**. Вначале нам **необходимо удалить все связанные строки из зависимой таблицы**. И если при удалении строки из главной таблицы необходимо, чтобы были удалены все связанные строки из зависимой таблицы, то **применяется каскадное удаление, то есть опция CASCADE**:
+    ```
+    CREATE TABLE Orders
+    (
+        Id SERIAL PRIMARY KEY,
+        CustomerId INTEGER,
+        Quantity INTEGER,
+        FOREIGN KEY (CustomerId) REFERENCES Customers (Id) ON DELETE CASCADE
+    );
+    ```
++ **Установка NULL** - при установки для внешнего ключа опции SET NULL необходимо, чтобы столбец внешнего ключа допускал значение NULL:
+    ```
+    CREATE TABLE Orders
+    (
+        Id SERIAL PRIMARY KEY,
+        CustomerId INTEGER,
+        Quantity INTEGER,
+        FOREIGN KEY (CustomerId) REFERENCES Customers (Id) ON DELETE SET NULL
+    );
+    ```
++ **Установка значения по умолчанию**
+    ```
+    CREATE TABLE Orders
+    (
+        Id SERIAL PRIMARY KEY,
+        CustomerId INTEGER DEFAULT 1,
+        Quantity INTEGER,
+        FOREIGN KEY (CustomerId) REFERENCES Customers (Id) ON DELETE SET DEFAULT
     );
     ```
