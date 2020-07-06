@@ -6,6 +6,7 @@
 + [Первичный ключ](#primarykey)
 + [Внешний ключ](#forign)
 + [Изменение таблицы](#changetable)
++ [Добавление данных](#addeddata)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -326,4 +327,28 @@
     ```
     ALTER TABLE Customers
     RENAME TO Users;
+    ```
+### <a name='addeddata'> </a> Добавление данных
++ **`INSERT INTO ... VALUES (...) ;`** - добавление данных. Значения для столбцов в скобках после ключевого слова VALUES передаются по порядку их объявления:
+    ```
+    INSERT INTO Products VALUES (1, 'Galaxy S9', 'Samsung', 4, 63000);
+    ```
+    или так
+    ```
+    INSERT INTO Products (ProductName, Price, Manufacturer) 
+    VALUES ('Galaxy S9', 63000, 'Samsung');
+    ```
+    можно добавить сразу несколько строк
+    ```
+    INSERT INTO Products  (ProductName, Manufacturer, Price, ProductCount)
+    VALUES
+    ('iPhone 6', 'Apple', 3, 36000),
+    ('Galaxy S8', 'Samsung', 2, 46000),
+    ('Galaxy S8 Plus', 'Samsung', 1, 56000);
+    ```
++ **`RETURNING`** - возвращает значение выбранного столбца при добавлении в таблицу нового элемента:
+    ```
+    INSERT INTO Products 
+    (ProductName, Manufacturer, Price, ProductCount) 
+    VALUES('Desire 12', 'HTC', 8, 21000) RETURNING id;
     ```
