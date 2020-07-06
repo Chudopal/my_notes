@@ -5,6 +5,7 @@
 + [Типы данных](#data_types)
 + [Первичный ключ](#primarykey)
 + [Внешний ключ](#forign)
++ [Изменение таблицы](#changetable)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -277,4 +278,52 @@
         Quantity INTEGER,
         FOREIGN KEY (CustomerId) REFERENCES Customers (Id) ON DELETE SET DEFAULT
     );
+    ```
+### <a name="changetable"> </a> Изменение таблицы
++ **Добавление нового столбца**:
+    ```
+    ALTER TABLE Customers
+    ADD Phone CHARACTER VARYING(20) NULL;
+    ```
+    В случае, если необходимо установить значение помимо NULL, необходимо задать его через NULL:
+    ```
+    ALTER TABLE Customers
+    ADD Address CHARACTER VARYING(30) NOT NULL DEFAULT 'Неизвестно';
+    ```
++ **Удаление столбца**:
+    ```
+    ALTER TABLE Customers
+    DROP COLUMN Address;
+    ```
++ **Изменение типа столбца**:
+    ```
+    ALTER TABLE Customers
+    ALTER COLUMN FirstName TYPE VARCHAR(50);
+    ```
++ **Изменение ограничений столбца**:
+    ```
+    ALTER TABLE Customers 
+    ALTER COLUMN FirstName 
+    SET NOT NULL;
+    ```
+    удаление:
+    ```
+    ALTER TABLE Customers 
+    ALTER COLUMN FirstName 
+    SET NOT NULL;
+    ```
++ **Изменение ограничений таблицы**:
+    ```
+    ALTER TABLE Customers
+    ADD CHECK (Age > 0);
+    ```
++ **Переименование столбца и таблицы**:
+    ```
+    ALTER TABLE Customers
+    RENAME COLUMN Address TO City;
+    ```
+    Таблицы:
+    ```
+    ALTER TABLE Customers
+    RENAME TO Users;
     ```
