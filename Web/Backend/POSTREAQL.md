@@ -511,4 +511,15 @@
         FROM Products
         ORDER BY Manufacturer ASC, ProductName DESC;
         ```
-        
++ **`SELECT ... FROM ... ORDER BY ... LIMIT n;`** - команда для запроса определенного количества строк из базы. n - количество строк:
+    ```
+    SELECT * FROM Products
+    ORDER BY ProductName
+    LIMIT 4;
+    ```
++ **`SELECT ... FROM ... ORDER BY ... OFFSET n;`** - команда для запроса с определенной строки:
+    ```
+    SELECT * FROM Products
+    ORDER BY ProductName
+    LIMIT 3 OFFSET 2;
+    ```
