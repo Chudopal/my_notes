@@ -11,6 +11,7 @@
 + [Фильтрация](#where)
 + [Обновление данных](#update)
 + [Удаление данных](#delete)
++ [Запросы](#requests)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -467,3 +468,47 @@
     ```
     DELETE FROM Products;
     ```
+### <a name="requests"> </a> Запросы
++ **`SELECT DISTINCT ... FROM ...;`** - позволяет вывести все уникальные строки:
+    ```
+    SELECT DISTINCT Manufacturer FROM Products;
+    /*
+    выведет только уникальных производтелей
+    */
+    ```
++ **`SELECT ... FROM ... ORDER BY ...;`** - упорядочить строки по определенному столбцу, упорядочивание происходит по возрастанию:
+    ```
+    SELECT * FROM Products
+    ORDER BY ProductCount;
+    ```
+    или так
+    ```
+    SELECT ProductName, ProductCount * Price AS TotalSum
+    FROM Products
+    ORDER BY TotalSum;
+    ```
+    + Чтобы сортировка происходила по убыванию можно использовать параметр **`DESC`**:
+        ```
+        SELECT ProductName, Manufacturer
+        FROM Products
+        ORDER BY Manufacturer DESC;
+        ```
+    + По умолчанию сортировка происходит по возрастанию, однако это можно задать явно, используя параметр **`ASC`**:
+        ```
+        SELECT ProductName, Manufacturer
+        FROM Products
+        ORDER BY Manufacturer ASC;
+        ```
+    + Сортировку можно производить по нескольким параметрам:
+        ```
+        SELECT ProductName, Manufacturer
+        FROM Products
+        ORDER BY Manufacturer ASC;
+        ```
+        можно использовать `ASC` и `DESC`:
+        ```
+        SELECT ProductName, Price, Manufacturer
+        FROM Products
+        ORDER BY Manufacturer ASC, ProductName DESC;
+        ```
+        
