@@ -523,3 +523,26 @@
     ORDER BY ProductName
     LIMIT 3 OFFSET 2;
     ```
++  **`(NOT) IN`** - оператор для указания принадлежности элемента к списку:
+    ```
+    SELECT * FROM Products
+    WHERE Manufacturer IN ('Samsung', 'HTC', 'Huawei');
+    ```
++ **`(NOT) BETWEEN`** - оператор для указания границ принадлежности:
+    ```
+    SELECT * FROM Products
+    WHERE Price BETWEEN 20000 AND 50000;
+    ```
+    можно так
+    ```
+    SELECT * FROM Products
+    WHERE Price * ProductCount BETWEEN 90000 AND 150000;
+    ```
++ **`LIKE`** - принимает шаблон строки, котрому должны соотвествовать запросы:
+    + **`%`** - любое количество символов;
+    + **`_`** - один символ;
+    ```
+    SELECT * FROM Products
+    WHERE ProductName LIKE 'iPhone%';
+    ```
+    
