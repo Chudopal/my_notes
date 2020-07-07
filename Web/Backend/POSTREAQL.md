@@ -12,6 +12,7 @@
 + [Обновление данных](#update)
 + [Удаление данных](#delete)
 + [Запросы](#requests)
++ [Агрегатные функции](#agregators)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -545,4 +546,50 @@
     SELECT * FROM Products
     WHERE ProductName LIKE 'iPhone%';
     ```
-    
+### <a name="agregators"> </a> Агрегатные функции
++ **Агрегатные фунции** - вычисляют одно значение над некоторым набором строк:
+Функция      | Описание
+-------------| -------------
+**`AVG`**    | Среднее значение
+**`BIT_AND`**| Побитовое умножение для чисел (логич И)
+**`BIT_OR`** | Побитовое сложение для чисел (логич ИЛИ)
+**`BOOL_AND`**| Логич И для булевых типов
+**`BOOL_OR`**| Логич ИЛИ для булевых типов
+**`COUNT(*)`**| Количество строк в запросе
+**`COUNT(expression)`**| находит количество строк в запросе, для которых expression не содержит значение NULL.
+**`SUM`**    | Вычисление суммы всех выбранных строк
+**`MIN`**    | Находит наименьшее значение
+**`MAX`**    | Находит наибольшее значение
+**`STRING_AGG(expression, delimiter)`** |  соединяет с помощью delimiter(разделитель между строками) все текстовые значения из expression в одну строку.
++ **Примеры**:   
+    ```
+    SELECT AVG(Price) AS Average_Price FROM Products;
+    ```
+    ```
+    SELECT AVG(Price) FROM Products
+    WHERE Company='Apple';
+    ```
+    ```
+    SELECT COUNT(*) FROM Products;
+    ```
+    ```
+    SELECT MIN(Price) FROM Products;
+    ```
+    ```
+    SELECT SUM(ProductCount) FROM Products;
+    ```
+    ```
+    SELECT BOOL_AND(IsDiscounted) FROM Products;
+    ```
+    ```
+    SELECT STRING_AGG(ProductName, ', ') FROM Products;
+    ```
+    можно комбинировать
+    ```
+    SELECT COUNT(*) AS ProdCount,
+       SUM(ProductCount) AS TotalCount,
+       MIN(Price) AS MinPrice,
+       MAX(Price) AS MaxPrice,
+       AVG(Price) AS AvgPrice
+    FROM Products;
+    ```
