@@ -9,6 +9,7 @@
 + [Добавление данных](#addeddata)
 + [Получение данных](#select)
 + [Фильтрация](#where)
++ [Обновление данных](#update)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -430,3 +431,24 @@
     SELECT * FROM Products
     WHERE ProductCount IS NOT NULL;
     ```
+
+### <a name="update"> </a> Обновление данных
++ **`UPDATE ... SET ... (WHERE ...)`** - команда для обновления данных. Обновление всего столбца:
+    ```
+    UPDATE Products
+    SET Price = Price + 3000;
+    ```
+    С помощью **`WHERE`** можно указать, какие конкретно строки обновлять:
+    ```
+    UPDATE Products
+    SET Manufacturer = 'Samsung Inc.'
+    WHERE Manufacturer = 'Samsung';
+    ```
+    Так же можно обновлять сразу несколько столбцов:
+    ```
+    UPDATE Products
+    SET Manufacturer = 'Samsung',
+        ProductCount = ProductCount + 3
+    WHERE Manufacturer = 'Samsung Inc.';
+    ```
+    
