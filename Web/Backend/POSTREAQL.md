@@ -10,6 +10,7 @@
 + [Получение данных](#select)
 + [Фильтрация](#where)
 + [Обновление данных](#update)
++ [Удаление данных](#delete)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -433,7 +434,7 @@
     ```
 
 ### <a name="update"> </a> Обновление данных
-+ **`UPDATE ... SET ... (WHERE ...)`** - команда для обновления данных. Обновление всего столбца:
++ **`UPDATE ... SET ... (WHERE ...);`** - команда для обновления данных. Обновление всего столбца:
     ```
     UPDATE Products
     SET Price = Price + 3000;
@@ -451,4 +452,18 @@
         ProductCount = ProductCount + 3
     WHERE Manufacturer = 'Samsung Inc.';
     ```
-    
+### <a name="delete"> </a> Удаление данных
++ **`DELETE FROM ... WHERE ...;`** - удаление строк из таблицы:
+    ```
+    DELETE FROM Products
+    WHERE Manufacturer='Apple';
+    ```
+    Такое тоже можно
+    ```
+    DELETE FROM Products
+    WHERE Manufacturer='HTC' AND Price < 15000;
+    ```
+    Удаление всех строк
+    ```
+    DELETE FROM Products;
+    ```
