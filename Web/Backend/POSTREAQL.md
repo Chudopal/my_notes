@@ -13,6 +13,7 @@
 + [Удаление данных](#delete)
 + [Запросы](#requests)
 + [Агрегатные функции](#agregators)
++ [Группировки](#grupping)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -595,3 +596,58 @@
        AVG(Price) AS AvgPrice
     FROM Products;
     ```
+### <a name="grupping"></a> Группировка
++ Группировка - разделение данных в бд по общим критериям.
++ **`GROUP BY ... ;`** - сгруппировать по определеннону параметру. Первый столбец в выражении SELECT - Company представляет название группы, а второй столбец - ModelsCount представляет результат функции Count, которая вычисляет количество строк в группе:
+    ```
+    SELECT Company, COUNT(*) AS ModelsCount
+    FROM Products
+    GROUP BY Company;
+    ```
+    Следует учитывать, что выражение GROUP BY должно идти после выражения WHERE, но до выражения ORDER BY:
+    ```
+    SELECT Company, COUNT(*) AS ModelsCount
+    FROM Products
+    WHERE Price > 30000
+    GROUP BY Company
+    ORDER BY ModelsCount DESC;
+    ```
++ **`GROUP BY ... HAVING ...;`** -  указывает, какие группы будут включены в выходной результат, то есть выполняет фильтрацию групп. Его использование аналогично применению оператора WHERE:
+    ```
+    SELECT Company, COUNT(*) AS ModelsCount
+    FROM Products
+    GROUP BY Company
+    HAVING COUNT(*) > 1;
+    ```
+    Можно использовать `WHERE` и `HAVING` одновременно:
+    ```
+    SELECT Company, COUNT(*) AS ModelsCount
+    FROM Products
+    WHERE Price * ProductCount > 80000
+    GROUP BY Company
+    HAVING COUNT(*) > 1;
+    ```
+    Сортировка идет в самом конце
+    ```
+    SELECT Company, COUNT(*) AS Models, SUM(ProductCount) AS Units
+    FROM Products
+    WHERE Price * ProductCount > 80000
+    GROUP BY Company
+    HAVING SUM(ProductCount) > 2
+    ORDER BY Units DESC;
+    ```
+
++ **`GROUPING SETS`** - группирует полученные наборы отдельно.
+    В выражении SELECT производится выборка компаний, количества моделей и количества товаров. То есть мы получаем три категории. Оператор GROUPING SETS производит группировку по двум столбцам - Company и ProductCount. В итоге будет создаваться две группы: 1) компании и количество моделей и 2)количество моделей и количество товаров.
+    ```
+    SELECT Company, COUNT(*) AS Models, ProductCount
+    FROM Products
+    GROUP BY GROUPING SETS(Company, ProductCount);
+    ```
++ **`ROLLUP`** - добавляет суммирующую строку:
+    ```
+    SELECT Company, COUNT(*) AS Models, SUM(ProductCount) AS Units
+    FROM Products
+    GROUP BY ROLLUP(Company);
+    ```
+    
