@@ -15,6 +15,7 @@
 + [Агрегатные функции](#agregators)
 + [Группировки](#grupping)
 + [Подзапросы](#subquery)
++ [Массивы](#arrays)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -728,4 +729,39 @@
     SELECT *
     FROM Products
     WHERE Price > (SELECT AVG(Price) FROM Products);
+    ```
+### <a name="arrays"></a> Массивы
++ Для того чтобы создать массив в бд, неубходимо указать об этом еще на стадии создания таблицы:
+    ```
+    create table posts(
+        id serial primary key,
+        title varchar(30),
+        body text,
+        tags varchar(10)[] //Массив
+    );
+    ```
++ Для того чтобы поместить новый объект с массивом в бд, необходимо взять массив в одинарные ковычки и кривые скобки, а каждый объект внутри массива(если он строка) взять в двойные ковычки:
+    ```
+    insert into posts(title, body, tags)
+    values('Post Title', 'Post Text', '{"sql", "postgres", "database", "plsql"}');
+    ```
+    можно извлечь массив
+    ```
+    select tags from posts;
+    ```
+    или конкретный диапазон из него
+    ```
+    select tags[0:3] from posts;
+    ```
+    можно обновлять массив
+    ```
+    update posts 
+    set tags='{"sql", "postgres", "database"}'
+    where id=1;
+    ```
+    изменить конкретный элемент в массиве
+    ```
+    update posts 
+    set tags[2]='system'
+    where id=1;
     ```
