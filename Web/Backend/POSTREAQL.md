@@ -18,6 +18,7 @@
 + [Массивы](#arrays)
 + [Перечисления](#enum)
 + [Соединение таблиц](#inner)
++ [Группировка в соединениях](#groupingininners)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -822,3 +823,11 @@
     ```
     Таблица Orders является первой или левой таблицей, а таблица Customers - правой таблицей. Поэтому, так как здесь используется выборка по левой таблице, то вначале будут выбираться все строки из Orders, а затем к ним по условию Orders.CustomerId = Customers.Id будут добавляться связанные строки из Customers.
 
+### <a name="groupingininners"></a> Группировка в соединениях
++ Можно применять соединения вместе с группировкой записей, например можно узнать для каждного покупателя количество заказов:
+    ```
+    SELECT FirstName, COUNT(Orders.Id)
+    FROM Customers JOIN Orders 
+    ON Orders.CustomerId = Customers.Id
+    GROUP BY Customers.Id, Customers.FirstName;
+    ```
