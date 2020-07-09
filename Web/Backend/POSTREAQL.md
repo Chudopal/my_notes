@@ -809,4 +809,16 @@
     JOIN Customers ON Customers.Id=Orders.CustomerId
     ORDER BY Customers.FirstName;
     ```
-    
++ **`OUTER JOIN`** - внешнее соединение, позволяет возвратить все строки одной или двух таблиц, которые участвуют в соединении. Перед оператором JOIN указывается одно из ключевых слов:
+    + **`LEFT`**: выборка будет содержать все строки из первой или левой таблицы
+
+    + **`RIGHT`**: выборка будет содержать все строки из второй или правой таблицы
+
+    + **`FULL`**: выборка будет содержать все строки из обеих таблиц
+    ```
+    SELECT FirstName, CreatedAt, ProductCount, Price, ProductId 
+    FROM Orders LEFT JOIN Customers 
+    ON Orders.CustomerId = Customers.Id;
+    ```
+    Таблица Orders является первой или левой таблицей, а таблица Customers - правой таблицей. Поэтому, так как здесь используется выборка по левой таблице, то вначале будут выбираться все строки из Orders, а затем к ним по условию Orders.CustomerId = Customers.Id будут добавляться связанные строки из Customers.
+
