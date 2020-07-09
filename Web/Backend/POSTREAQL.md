@@ -17,6 +17,7 @@
 + [Подзапросы](#subquery)
 + [Массивы](#arrays)
 + [Перечисления](#enum)
++ [Соединение таблиц](#inner)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -793,3 +794,19 @@
     ```
     DROP TYPE request_state;
     ```
+### <a name="inner"></a> Соединение таблиц
++ **`JOIN ... ON ...;`** - оператор для слияния таблиц:
+    ```
+    SELECT Orders.CreatedAt, Orders.ProductCount, Products.ProductName 
+    FROM Orders
+    JOIN Products ON Products.Id = Orders.ProductId;
+    ```
+    Можно усложнять соединения
+    ```
+    SELECT Orders.CreatedAt, Customers.FirstName, Products.ProductName 
+    FROM Orders
+    JOIN Products ON Products.Id = Orders.ProductId AND Products.Company='Apple'
+    JOIN Customers ON Customers.Id=Orders.CustomerId
+    ORDER BY Customers.FirstName;
+    ```
+    
