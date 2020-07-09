@@ -16,6 +16,7 @@
 + [Группировки](#grupping)
 + [Подзапросы](#subquery)
 + [Массивы](#arrays)
++ [Перечисления](#enum)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -764,4 +765,31 @@
     update posts 
     set tags[2]='system'
     where id=1;
+    ```
+### <a name="enum"></a> Перечисления
++ **Перечисление** - это столбец, который может принимать только заранее определенные константы;
++ **`CREATE TYPE ... AS ENUM (...);`** - создание перечисления:
+    ```
+    CREATE TYPE request_state AS ENUM ('created', 'approved', 'finshed');
+    ```
+    Далее этот тип можно использовать в новых таблицах, и он будет принимать только константы, которые определены зарание:
+    ```
+    create table requests(
+        id serial primary key,
+        title varchar(30),
+        status request_state
+    );
+    ```
+    Добавление такое же как и в обчные таблицы
+    ```
+    insert into requests(title, status)
+    values ('Request 1', 'created');
+    ```
++ **`ALTER TYPE ...;`** - изменение перечисления:
+    ```
+    ALTER TYPE request_state ADD VALUE 'blocked';
+    ```
++ **`DROP TUPE ...;`** - удаление перечисления:
+    ```
+    DROP TYPE request_state;
     ```
