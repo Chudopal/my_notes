@@ -21,6 +21,7 @@
 + [Группировка в соединениях](#groupingininners)
 + [Объединение множеств](#union)
 + [Пересечение множеств](#intersect)
++ [Разность множеств](#except)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -869,4 +870,13 @@
     INTERSECT 
     SELECT FirstName, LastName 
     FROM Customers;
+    ```
+### <a name="except"> </a> Разность множеств
++ **`EXCEPT ... ;`** - позволяет найти разность двух выборок, то есть те строки которые есть в первой выборке, но которых нет во второй.
+    ```
+    SELECT FirstName, LastName
+    FROM Customers
+    EXCEPT 
+    SELECT FirstName, LastName 
+    FROM Employees;
     ```
