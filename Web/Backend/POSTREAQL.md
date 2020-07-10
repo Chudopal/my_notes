@@ -19,6 +19,7 @@
 + [Перечисления](#enum)
 + [Соединение таблиц](#inner)
 + [Группировка в соединениях](#groupingininners)
++ [Объединение множеств](#union)
 
 ### <a name="basic_commands"></a> Основные команды:
 + **`sudo -u postgres psql`** - запуск СУБД;
@@ -831,3 +832,30 @@
     ON Orders.CustomerId = Customers.Id
     GROUP BY Customers.Id, Customers.FirstName;
     ```
+
+### <a name="union"></a> Объединение множеств
++ **`UNION ... ;`** - объединяет 2 таблицы. Но в отличие от inner/outer join объединения соединяют не столбцы разных таблиц, а два однотипных набора в один. Если оба объединяемых набора содержат в строках идентичные значения, то при объединении повторяющиеся строки удаляются.
+    ```
+    SELECT FirstName, LastName FROM Customers
+    UNION 
+    SELECT FirstName, LastName FROM Employees;
+    ```
++ Если же необходимо при объединении сохранить все, в том числе повторяющиеся строки, то для этого необходимо использовать оператор **`ALL`**:
+    ```
+    SELECT FirstName, LastName
+    FROM Customers
+    UNION ALL 
+    SELECT FirstName, LastName 
+    FROM Employees;
+    ```
++ Оператор **`||`** применяется для склеивания вух столбцов:
+    ```
+    SELECT FirstName || ' ' || LastName AS FullName
+    FROM Customers
+    UNION 
+    SELECT FirstName || ' ' || LastName AS EmployeeName 
+    FROM Employees
+    ORDER BY FullName;
+    ```
++ **Если же в одной выборке больше столбцов, чем в другой, то они не смогут быть объединены.**
++ **Также соответствующие столбцы должны соответствовать по типу.**
