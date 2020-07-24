@@ -3,10 +3,12 @@
  + [Общие понятия](./Web/ABOUTWEB.md)
  + [REST](./Web/Backend/REST.md)
  + [Django](./Web/Backend/DJANGO.md)
+ + [Flask](./Web/Backend/FLASK.md)
 2. #### Frontend 
  + [HTML](./Web/Frontend/HTML.md) 
  + [JS](./Web/Frontend/JS.md)
  + [CSS](./Web/Frontend/CSS.md)
+ + [React](./Web/Frontend/REACT.md)
 3. #### Паттерны проектирования
  + [Mvc](./Patterns/MVC.md)
 4. #### ЯП-ы
