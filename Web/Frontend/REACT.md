@@ -1,27 +1,9 @@
 # React
 **JavaScript библеотека для создания фронтэнда**
 
-+ [Компонент](#component)
 + [JSX](#jsx)
++ [Компонент](#component)
 
-### <a name="component"> </a> Компонент
-+ Любое приложение на React состоит из множества компонент.
-+ Компоненты позволяют разбить приложение на независимые части, а также позже использовать эти **компоненты повторно в коде**. Компоненты могут состоять из других компонент.
-+ Примеры компонент: `пост, комментарий, лайк и т д`
-+ Создание компоненты:
-    ```javascript
-        import React from "react"
-        import {render} from 'react-dom'
-
-        function HelloWorld(){
-            return (
-                <h1>Hello world</h1>
-            )
-        }
-
-        render(<hello_world/>, document.getElementById('root'))//рендерим функцию и указываем, куда поместить отрендеренный код
-    
-    ```
 
 ### <a name="jsx"> </a> JSX
 + **JSX** очень похож на HTML, однако данный код компилируется в JS.
@@ -111,4 +93,65 @@
             </div>
         )
     }
+    ```
+
+### <a name="component"> </a> Компонент
++ Любое приложение на React состоит из множества компонент. 
++ Компоненты позволяют разбить приложение на независимые части, а также позже использовать эти **компоненты повторно в коде**. Компоненты могут состоять из других компонент.
++ Примеры компонент: `пост, комментарий, лайк и т д`
++ Создание компоненты:
+    ```javascript
+        import React from "react"
+        import {render} from 'react-dom'
+
+        function HelloWorld(){
+            return (
+                <h1>Hello world</h1>
+            )
+        }
+
+        render(<hello_world/>, document.getElementById('root'))//рендерим функцию и указываем, куда поместить отрендеренный код
+    
+    ```
++ Хорошей практикой считается заводить **отдельный файл на каждую компоненту**:
+    файл index.jx
+    ```javascript
+    import React from "react"
+    import {render} from 'react-app'
+    import App from './components/App.js'
+
+    render(<App />, document.getElementById('root'))
+    ```
+    
+    файл components/App.js
+    ```javascript
+        import React from "react"
+        import Post from "post"
+
+        function App(){
+            return (
+                <div>
+                    <h1> Hello </h1>
+                    <Post />
+                </div>
+            )
+        }
+
+        export default App //экспортируем, чтобы другие файлы видели
+    ```
+    файл components/Post.js
+    ```javascript
+    import React from "react"
+    
+    function Post(props){
+        const {post} = props
+        return (
+            <div>
+                <h1> {post.title} </h1>
+                <p> {post.body} </p>
+            </div>
+        )
+    }
+
+    export default Post
     ```
