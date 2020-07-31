@@ -4,7 +4,7 @@
 + [Установка Flask](#installing)
 + [Приложение на Flask](#app)
 + [Маршруты](#paths)
-
++ [HTTP-методы](#methods)
 
 ### <a name="installing"></a> Установка Flask
 + Установить виртуальную среду: 
@@ -58,3 +58,16 @@
     def show_post(post_id):
         return f'Post {post_id}'
     ```
+### <a name="methods"></a> HTTP-методы
++ в `app.route()` можно добавлять методы, которые обрабатывает функция:
+    ```py
+    from flask import request
+
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            do_the_login()
+        else:
+            show_the_login_form()
+    ```
+    + `request` берется из глобального контекста
