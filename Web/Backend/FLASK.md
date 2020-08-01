@@ -8,6 +8,7 @@
 + [Шаблоны](#templates)
 + [Объект request](#request)
 
+
 ### <a name="installing"></a> Установка Flask
 + Установить виртуальную среду: 
     ```bash
@@ -60,6 +61,20 @@
     def show_post(post_id):
         return f'Post {post_id}'
     ```
++ Чтобы перенаправить пользователя на другой URL ипользуется функция **`redirect`**:
+    ```py
+    from flask import abort, redirect, url_for
+
+    @app.route('/')
+    def index():
+        return redirect(url_for('login'))
+
+    @app.route('/login')
+    def login():
+        abort(401)
+        this_is_never_executed()
+    ```
+
 ### <a name="methods"></a> HTTP-методы
 + в `app.route()` можно добавлять методы, которые обрабатывает функция:
     ```py
@@ -73,6 +88,7 @@
             show_the_login_form()
     ```
     + `request` берется из глобального контекста
+
 
 ### <a name="templates"> </a> Шаблоны
 + Для визуализации шоблонов используется метод `render_template()`, все, что необходимо это передать название шаблона, а так же передать список именованных аргументов. Flask ищет шаблоны в папке **templates** пакета, в котором находится сам файл, из котрого этот шаблон вызывается: 
