@@ -6,6 +6,7 @@
 + [Маршруты](#paths)
 + [HTTP-методы](#methods)
 + [Шаблоны](#templates)
++ [Объект request](#request)
 
 ### <a name="installing"></a> Установка Flask
 + Установить виртуальную среду: 
@@ -105,4 +106,28 @@
     {% endif %}
     ```
     + для шаблонизации используется движое Jinja2, тот же что и для Django, потому правила переменных, блоков и наследования шаблонов сохраняются как и для Django. В приведенном выше примере видно, что в шаблоне используется переданный именованный аргумент `name`.
-    
+
+### <a name="request"></a> Объект request
++ за запрос, приходящий функциям на обработку отвечает глобальный обьект **`request`**:
+    ```py
+    from flask import request
+    ```
+    + В нем хранится все данные, которые передает клиент, чтобы получить корректные данные с сервера.
+    + Глобальный объект запроса `request` является локальным для определенного контекста. Новый контекст создается каждый раз для нового потока(или не потока, так как flask имеет дело с параллельным выполнением).
++ можно получать рвзличные данные из объекта запроса, например метод(`method`) или данные фармы(`form[]`) :
+    ```py
+    @app.route('/login', methods=['POST', 'GET'])
+    def login():
+        error = None
+        if request.method == 'POST':
+            if valid_login(request.form['username'],
+                           request.form['password']):
+                return log_the_user_in(request.form['username'])
+            else:
+                error = 'Invalid username/password'
+        return render_template('login.html', error=error)
+    ```
++ можно получать данные из URL `?ключ=значение`:
+    ```py
+    serchword = request.args.get('key', '')
+    ```
