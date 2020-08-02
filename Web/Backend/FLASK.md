@@ -7,6 +7,7 @@
 + [HTTP-методы](#methods)
 + [Шаблоны](#templates)
 + [Объект request](#request)
++ [Связь с базой данных](#bd)
 
 
 ### <a name="installing"></a> Установка Flask
@@ -147,3 +148,4 @@
     ```py
     serchword = request.args.get('key', '')
     ```
+### <a name="bd"></a> Связь с базой данных
