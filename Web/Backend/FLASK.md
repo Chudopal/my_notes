@@ -23,6 +23,10 @@
     ```
     pip insltall flask
     ```
++ Можно указать приложение, с которого начинается программа:
+    ```bash
+    export FLASK_APP=vocabullary.py
+    ```
 + Запустить приложение flsk:
     ```bash
     flask start
@@ -153,3 +157,4 @@
     serchword = request.args.get('key', '')
     ```
 ### <a name="bd"></a> Связь с базой данных
+
