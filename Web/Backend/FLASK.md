@@ -157,4 +157,40 @@
     serchword = request.args.get('key', '')
     ```
 ### <a name="bd"></a> Связь с базой данных
++ чтобы проще было проще управлять базой данных, а так же чтобы не привязывать свое приложение к определенной СУБД, используется **Object Relational Mapper** или ORM. ORM позволяют приложениям управлять базой данных с использованием объектов высокого уровня, таких как классы, объекты и методы, а не таблицы и SQL. Задача ORM — перевести операции высокого уровня в команды базы данных.
++ ORM для Flask не предустановлен, потому можно выбрать и установить свой, например:
+    ```shell
+    pip install flask-sqlalchemy
+    ```
++ После этого можно сделать объекты, которые будут записаны в бд. Можно их создавать в любом файле, но принито заводить отдельный файл `models.py`:
+    ```py
+    from datetime import datetime
+    from app import db
 
+
+    class User(db.Model):
+        """This is class for user"""
+        __tablename__ = "user"
+        id          = db.Column(db.Integer, primary_key=True)
+        username    = db.Column(db.String(64), index=True, unique=True)
+        email       = db.Column(db.String(120), index=True, unique=True)
+        password_hash = db.Column(db.String(128))
+        words       = db.relationship("Word", backref='user', lazy='dynamic') #one to many
+
+        def __repr__(self):
+            return '<User {}>'.format(self.username) 
+
+
+    class Word(db.Model):
+        """This is class for model of word"""
+        __tablename__ = "word"
+        id          = db.Column(db.Integer, primary_key=True)
+        original    = db.Column(db.String(64), index=True, unique=True)
+        translate   = db.Column(db.String(64), index=True, unique=True)
+        degree      = db.Column(db.Integer, primary_key=True)
+        date        = db.Column(db.DateTime, default=datetime.utcnow)
+        parent_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+        def __repr__(self):
+            return '<User {}>'.format(self.original) 
+    ```
