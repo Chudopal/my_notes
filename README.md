@@ -10,7 +10,9 @@
  + [CSS](./Web/Frontend/CSS.md)
  + [React](./Web/Frontend/REACT.md)
 3. #### Паттерны проектирования
- + [Mvc](./Patterns/MVC.md)
+ + [Порождающие](./Patterns/Creational.md)
+ + [Структурные](./Patterns/Structura.md)
+ + [Поведенческие](./Patterns/Behavioral.md)
 4. #### ЯП-ы
  + [C++](./Languages/C++.md)
  + [Python](./Languages/PYTHON.md)
