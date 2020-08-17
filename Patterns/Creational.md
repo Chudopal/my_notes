@@ -5,6 +5,7 @@
 + [Абстрактная фабрика](#abstract_fabric)
 + [Строитель](#builder)
 + [Прототип](#prototype)
++ [Одиночка](#singleton)
 
 ### <a name="fabric"> </a> Фабричный метод
 + Порождающий шаблон проектирования, предоставляющий подклассам **интерфейс для создания экземпляров некоторого класса**. То есть, по сути, создание объекта просто переносится внутрь класса для большей гибкости. В интерфайсе или абстрактном классе определяется метод, а реализуется он в подклассах посредством тех сущностей, которые необходимы в данной ситуации.
@@ -300,36 +301,36 @@
 + РЕАЛИЗАЦИЯ:
     ```py
     import copy
-    
+
     class Prototype:
-    
+
         def __init__(self):
             self._objects = {}
-    
+
         def register_object(self, name, obj):
             """Register an object"""
             self._objects[name] = obj
-    
+
         def unregister_object(self, name):
             """Unregister an object"""
             del self._objects[name]
-    
+
         def clone(self, name, **attr):
             """Clone a registered object and update inner attributes dictionary"""
             obj = copy.deepcopy(self._objects.get(name))
             obj.__dict__.update(attr)
             return obj
-    
+
     class A:
         def __init__(self):
             self.x = 3
             self.y = 8
             self.z = 15
             self.garbage = [38, 11, 19]
-    
+
         def __str__(self):
             return '{} {} {} {}'.format(self.x, self.y, self.z, self.garbage)
-    
+
     def main():
         a = A()
         prototype = Prototype()
@@ -337,7 +338,45 @@
         b = prototype.clone('objecta')
         c = prototype.clone('objecta', x=1, y=2, garbage=[88, 1])
         print([str(i) for i in (a, b, c)])
-    
+
     if __name__ == '__main__':
         main()
+    ```
+
+### <a name="singleton"></a> Одиночка
++ паттерн проектирования, который гарантирует, что у класса будет только один объект с глобальным доступом в однопоточном приложении
++ ПЛЮСЫ:
+    + Контролирует доступ к единственному экземпляру
++ МИНУСЫ:
+    + Нарушает принцип идинственной ответственности класса
+    + Проблема мультипоточности
+    + глобальные объекты могут быть вредны для объектного программирования, в некоторых случаях приводя к созданию немасштабируемого проекта.
++ КОГДА ПРИМЕНЯТЬ:
+    + Когда в программе должен быть единственный экземпляр какого-то класса, доступный всем клиентам (например, общий доступ к базе данных из разных частей программы).
++ РЕАЛИЗАЦИЯ:
+    + на декраторах: 
+        ```py
+        def singleton(cls):
+            instances = {}
+            def getinstance():
+                if cls not in instances:
+                    instances[cls] = cls()
+                return instances[cls]
+            return getinstance
+
+        @singleton
+        class Singleton:
+            ...
+        ```
+    + метаклассы:
+    ```py
+    class MetaSingleton(type):
+        _instances = {}
+
+        def __call__(cls, *args, **kwargs):
+            if cls not in cls._instances:
+                cls._instances[cls] = super(MetaSingleton, cls).__call__(*args, **kwargs)
+            return cls._instances[cls]
+
+    class Singleton(metaclass=MetaSingleton):
     ```
