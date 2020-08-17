@@ -3,6 +3,7 @@
 
 + [Фабричный метод](#fabric)
 + [Абстрактная фабрика](#abstract_fabric)
++ [Строитель](#builder)
 
 ### <a name="fabric"> </a> Фабричный метод
 + Порождающий шаблон проектирования, предоставляющий подклассам **интерфейс для создания экземпляров некоторого класса**. То есть, по сути, создание объекта просто переносится внутрь класса для большей гибкости. В интерфайсе или абстрактном классе определяется метод, а реализуется он в подклассах посредством тех сущностей, которые необходимы в данной ситуации.
@@ -101,7 +102,7 @@
     ```
 
 ### <a name="abstract_fabric"> </a> Абстрактная фабрика
-+ это порождающий паттерн проектирования, который позволяет создавать объекты одного типа, объединяя их в общий интерфейс, в котором для создания каждого объекта имеется метод, типа создатьКресло, создатьСтол и т.д.
++ это порождающий паттерн проектирования, который позволяет создавать объекты одного типа, объединяя их в общий интерфейс, в котором для создания каждого объекта имеется метод, типа создатьКресло, создатьСтол и т.д. **Абстрактная фабрика специализируется на создании семейств связанных продуктов.**
 + ПЛЮСЫ:
     + Гарантирует сочетаемость создаваемых продуктов.
     + Избавляет клиентский код от привязки к конкретным классам продуктов.
@@ -115,70 +116,70 @@
 + РЕАЛИЗАЦИЯ:
     ```py
     from abc import ABCMeta, abstractmethod
-    
-    
+
+
     class Beer(metaclass=ABCMeta):
     	pass
-    
-    
+
+
     class Snack(metaclass=ABCMeta):
-    
+
     	@abstractmethod
     	def interact(self, beer: Beer) -> None:
     		pass
-    
-    
+
+
     class AbstractShop(metaclass=ABCMeta):
-    
+
     	@abstractmethod
     	def buy_beer(self) -> Beer:
     		pass
-    
+
     	@abstractmethod
     	def buy_snack(self) -> Snack:
     		pass
-    
-    
+
+
     class Tuborg(Beer):
     	pass
-    
-    
+
+
     class Staropramen(Beer):
     	pass
-    
-    
+
+
     class Peanuts(Snack):
-    
+
     	def interact(self, beer: Beer) -> None:
     		print('Мы выпили по бутылке пива {} и закусили его арахисом'.format(
     			beer.__class__.__name__))
-    
-    
+
+
     class Chips(Snack):
-    
+
     	def interact(self, beer: Beer) -> None:
     		print('Мы выпили несколько банок пива {} и съели пачку чипсов'.format(
     			beer.__class__.__name__))
-    
-    
+
+
     class ExpensiveShop(AbstractShop):
-    
+
     	def buy_beer(self) -> Beer:
     		return Tuborg()
-    
+
     	def buy_snack(self) -> Snack:
     		return Peanuts()
-    
-    
+
+
     class CheapShop(AbstractShop):
-    
+
     	def buy_beer(self) -> Beer:
     		return Staropramen()
-    
+
     	def buy_snack(self) -> Snack:
     		return Chips()
-    
-    
+
+
     if __name__ == '__main__':
     	expensive_shop = ExpensiveShop()
     	cheap_shop = CheapShop()
@@ -189,10 +190,103 @@
     	beer = cheap_shop.buy_beer()
     	snack = expensive_shop.buy_snack()
     	snack.interact(beer)
-    
+
     '''
     OUTPUT:
     Мы выпили несколько банок пива Tuborg и съели пачку чипсов
     Мы выпили по бутылке пива Staropramen и закусили его арахисом
     '''
+    ```
+
+### <a name="builder"></a> Строитель
++ предоставляет методы, которые позволяют создавать сложный объект пошагово. Если выеделить методы из стрителя в отедельный класс, то этот класс будет называться **директором**. Медоты строителя не обязательно вызывать через директора, однако
++ ПЛЮСЫ:
+    + Позволяет создавать продукты пошагово
+    + избавляется от телескопического конструктора
+    + более тонкий контроль над процессом конструирования, чем другие порождающие паттерны
++ МИНУСЫ:
+    + Усложняет код программы из-за введения дополнительных классов.
++ КОГДА ПРИМЕНЯТЬ:
+    + Когда вам необходимо собрать сложные, составные объекты.
++ РЕАЛИЗАЦИЯ:
+    ```py
+    from abc import ABC, abstractmethod, abstractproperty
+    from typing import Any
+
+
+    class Builder(ABC):
+
+        @abstractproperty
+        def product(self) -> None:
+            pass
+
+        @abstractmethod
+        def produce_part_a(self) -> None:
+            pass
+
+        @abstractmethod
+        def produce_part_b(self) -> None:
+            pass
+
+        @abstractmethod
+        def produce_part_c(self) -> None:
+            pass
+
+
+    class Product1():
+
+        def __init__(self) -> None:
+            self.parts = []
+
+        def add(self, part: Any) -> None:
+            self.parts.append(part)
+
+        def list_parts(self) -> None:
+            print(f"Product parts: {', '.join(self.parts)}", end="")
+
+
+    class ConcreteBuilder1(Builder):
+
+        def __init__(self) -> None:
+            self.reset()
+
+        def reset(self) -> None:
+            self._product = Product1()
+
+        @property
+        def product(self) -> Product1:
+            product = self._product
+            self.reset()
+            return product
+
+        def produce_part_a(self) -> None:
+            self._product.add("PartA1")
+
+        def produce_part_b(self) -> None:
+            self._product.add("PartB1")
+
+        def produce_part_c(self) -> None:
+            self._product.add("PartC1")
+
+
+    class Director:
+
+        def __init__(self) -> None:
+            self._builder = None
+
+        @property
+        def builder(self) -> Builder:
+            return self._builder
+
+        @builder.setter
+        def builder(self, builder: Builder) -> None:
+            self._builder = builder
+
+        def build_minimal_viable_product(self) -> None:
+            self.builder.produce_part_a()
+
+        def build_full_featured_product(self) -> None:
+            self.builder.produce_part_a()
+            self.builder.produce_part_b()
+            self.builder.produce_part_c()
     ```
