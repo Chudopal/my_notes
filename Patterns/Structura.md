@@ -5,6 +5,7 @@
 + [Мост](#bridge)
 + [Компоновщик](#composite)
 + [Декоратор](#decorator)
++ [Фасад](#fasade)
 
 ### <a name="wrapper></a> Адаптер 
 + Cтруктурный паттерн проектирования, который позволяет объектам с несовместимыми интерфейсами работать вместе.
@@ -505,4 +506,69 @@
     comp = Wrapper(comp)
     print comp.operator()
     # 15.0
+    ```
+### <a name="fasade"></a> Фасад
++ структурный шаблон проектирования, позволяющий скрыть сложность системы путём сведения всех возможных внешних вызовов к одному объекту, делегирующему их соответствующим объектам системы.
++ ПЛЮСЫ:
+    + Изолирует клиентов от компонентов сложной подсистемы.
++ МИНУСЫ:
+    + Обилие крошечных классов.
+    + Трудно конфигурировать многократно обёрнутые объекты.
++ КОГДА ПРИМЕНЯТЬ:
+    + Когда вам нужно представить простой или урезанный интерфейс к сложной подсистеме.
++ РЕАЛИЗАЦИЯ:
+    ```py
+    # Сложные части системы
+    class CPU(object):
+        def __init__(self):
+            # ...
+            pass
+
+        def freeze(self):
+            # ...
+            pass
+
+        def jump(self, address):
+            # ...
+            pass
+
+        def execute(self):
+            # ...
+            pass
+
+    class Memory(object):
+        def __init__(self):
+            # ...
+            pass
+
+        def load(self, position, data):
+            # ...
+            pass
+
+    class HardDrive(object):
+        def __init__(self):
+            # ...
+            pass
+
+        def read(self, lba, size):
+            # ...
+            pass
+
+    # Фасад
+    class Computer(object):
+        def __init__(self):
+            self._cpu = CPU()
+            self._memory = Memory()
+            self._hardDrive = HardDrive()
+
+        def startComputer(self):
+            self._cpu.freeze()
+            self._memory.load(BOOT_ADDRESS, self._hardDrive.read(BOOT_SECTOR, SECTOR_SIZE))
+            self._cpu.jump(BOOT_ADDRESS)
+            self._cpu.execute()
+
+    # Клиентская часть
+    if __name__ == "__main__":
+        facade = Computer()
+        facade.startComputer()
     ```
