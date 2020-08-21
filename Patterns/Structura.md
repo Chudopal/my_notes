@@ -4,6 +4,7 @@
 + [Адаптер(Wrapper)](#wrapper)
 + [Мост](#bridge)
 + [Компоновщик](#composite)
++ [Декоратор](#decorator)
 
 ### <a name="wrapper></a> Адаптер 
 + Cтруктурный паттерн проектирования, который позволяет объектам с несовместимыми интерфейсами работать вместе.
@@ -457,4 +458,51 @@
     
         print("Client: I don't need to check the components classes even when managing the tree:")
         client_code2(tree, simple)
+    ```
+
+### <a name="decorator"></a>  Докоратор
++ структурный паттерн проектирования, который позволяет динамически добавлять объектам новую функциональность, оборачивая их в полезные «обёртки». Декоратор предусматривает расширение функциональности объекта без определения подклассов.
++ ПЛЮСЫ:
+    + Большая гибкость, чем у наследования
+    + Позволяет добавлять обязанности на лету
++ МИНУСЫ:
+    + Обилие крошечных классов.
+    + Трудно конфигурировать многократно обёрнутые объекты.
++ КОГДА ПРИМЕНЯТЬ:
+    + Когда нужно добавлять обязанности объектам на лету, незаметно для кода, который их использует.
++ РЕАЛИЗАЦИЯ:
+    ```py
+    from abc import ABCMeta, abstractmethod
+
+    class IOperator(object):
+        """
+        Интерфейс, который должны реализовать как декоратор,
+        так и оборачиваемый объект.
+        """
+        __metaclass__ = ABCMeta
+
+        @abstractmethod
+        def operator(self):
+            pass
+
+
+    class Component(IOperator):
+        """Компонент программы"""
+        def operator(self):
+            return 10.0
+
+
+    class Wrapper(IOperator):
+        """Декоратор"""
+        def __init__(self, obj):
+            self.obj = obj
+
+        def operator(self):
+            return self.obj.operator() + 5.0
+
+
+    comp = Component()
+    comp = Wrapper(comp)
+    print comp.operator()
+    # 15.0
     ```
