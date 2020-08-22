@@ -6,6 +6,7 @@
 + [Компоновщик](#composite)
 + [Декоратор](#decorator)
 + [Фасад](#fasade)
++ [Легковес(приспособленец)](#flyweight)
 
 ### <a name="wrapper></a> Адаптер 
 + Cтруктурный паттерн проектирования, который позволяет объектам с несовместимыми интерфейсами работать вместе.
@@ -571,4 +572,78 @@
     if __name__ == "__main__":
         facade = Computer()
         facade.startComputer()
+    ```
+### <a name="flyweight"></a> Легковес(приспособленец)
++ структурный паттерн проектирования, который позволяет вместить бóльшее количество объектов в отведённую оперативную память. Легковес экономит память, разделяя общее состояние объектов между собой, вместо хранения одинаковых данных в каждом объекте.
+    + Неизменяемые данные объекта принято называть «внутренним **состоянием»**. Все остальные данные — это **«внешнее состояние»**.
++ ПЛЮСЫ:
+    + Экономит оперативную память.
++ МИНУСЫ:
+    + Расходует процессорное время на поиск/вычисление контекста.
+    + Усложняет код программы из-за введения множества дополнительных классов.
++ КОГДА ПРИМЕНЯТЬ:
+    + Когда не хватает оперативной памяти для поддержки всех нужных объектов.
++ РЕАЛИЗАЦИЯ:
+    ```py
+    class Lamp(object):
+
+        def __init__(self, color):
+            self.color = color
+
+
+    class LampFactory:
+
+        lamps = {}
+
+        @staticmethod #можно и через @classmethod
+        def get_lamp(color):
+            return LampFactory.lamps.setdefault(color, Lamp(color))#добавляет новый объект, если если не находит существующий
+
+
+    class TreeBranch(object):
+        def __init__(self, branch_number):
+            self.branch_number = branch_number
+
+        def hang(self, lamp):
+            print("Hang {} [{}] lamp on branch {} [{}]".format(lamp.color, id(lamp), self.branch_number, id(self)))
+
+
+    class ChristmasTree(object):
+        def __init__(self):
+            self.lamps_hung = 0
+            self.branches = {}
+
+        def get_branch(self, number):
+            return self.branches.setdefault(number, TreeBranch(number))
+
+        def dress_up_the_tree(self):
+            self.hang_lamp('red', 1)
+            self.hang_lamp('blue', 1)
+            self.hang_lamp('yellow', 1)
+            self.hang_lamp('red', 2)
+            self.hang_lamp('blue', 2)
+            self.hang_lamp('yellow', 2)
+            self.hang_lamp('red', 3)
+            self.hang_lamp('blue', 3)
+            self.hang_lamp('yellow', 3)
+            self.hang_lamp('red', 4)
+            self.hang_lamp('blue', 4)
+            self.hang_lamp('yellow', 4)
+            self.hang_lamp('red', 5)
+            self.hang_lamp('blue', 5)
+            self.hang_lamp('yellow', 5)
+            self.hang_lamp('red', 6)
+            self.hang_lamp('blue', 6)
+            self.hang_lamp('yellow', 6)
+            self.hang_lamp('red', 7)
+            self.hang_lamp('blue', 7)
+            self.hang_lamp('yellow', 7)
+
+        def hang_lamp(self, color, branch_number):
+            self.get_branch(branch_number).hang(LampFactory.get_lamp(color))
+            self.lamps_hung += 1
+
+
+    if __name__ == '__main__':
+        ChristmasTree().dress_up_the_tree()
     ```
