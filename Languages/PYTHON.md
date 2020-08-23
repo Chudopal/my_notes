@@ -387,7 +387,7 @@ with open('sw_templates.json') as f:
     >>> b
     <__main__.Object object at 0x7fc70891f518>
     ```
-  + копируется:
+  + копируется
 
   + есть возможность добавить к нему атрибуты
     ```py
@@ -487,8 +487,47 @@ with open('sw_templates.json') as f:
   print ExampleSibling
   print ExampleSibling.__mro__
   ```
-+ 
-
++ **type()** вообще сама по всебе довольно интересная функция, она дает возможности:
+  + определить тип объекта:
+    ```py
+    >>> print(type(1))
+    <type 'int'>
+    >>> print(type("1"))
+    <type 'str'>
+    >>> print(type(ObjectCreator))
+    <type 'type'>
+    >>> print(type(ObjectCreator()))
+    <class '__main__.ObjectCreator'>
+    ```
+  + создавать классы "на ходу" в такой форме **`type(name of the class, tuple of the parent class (for inheritance, can be empty), dictionary containing attributes names and values)`**:
+    + Создание пустого класса:
+      ```py
+      MyShinyClass = type('MyShinyClass', (), {}) # returns a class object
+      ```
+      Эквивалентно:
+      ```py
+      class MyShinyClass(object):
+          pass
+      ```
+    + Создание класса со свойствами:
+      ```py
+      Foo = type('Foo', (), {'bar':True})
+      ```
+      Эквивалентно:
+      ```py
+      class Foo(object):
+          bar = True
+      ```
+    + наследовать другие классы:
+      ```py
+      FooChild = type('FooChild', (Foo,), {})
+      ``` 
+      Эквивалентно:
+      ```py
+      class FooChild(Foo):
+          pass
+      ```
+      
 
 ## <a name="packeges"></a> Пакеты и модули
 **Модулем** в Python называется любой файл с программой.
