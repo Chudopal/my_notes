@@ -17,6 +17,7 @@
   + [Чтение](#readjson)
   + [Запись](#writejson)
 + [ООП](#oop)
+  + [Декораторы класса](#class_decorators)
   + [Метаклассы](#metaclasses)
   + [Итераторы](#iterators)
   + [Генераторы](#generators)
@@ -320,6 +321,28 @@ dimensions = (200, 50)
 
   greet() #'<strong><em>Привет!</em></strong>'
   ```
++ Если в декорируемую функцию передать аргументы, то в декораторе можно использовать **`args*`** и **`kwargs*`**:
+  ```py
+  def trace(func):
+    def wrapper(*args, **kwargs):
+      print(f'ТРАССИРОВКА: вызвана {func.__name__}() '
+      f'с {args}, {kwargs}')
+      original_result = func(*args, **kwargs) #здесь выполняется функция
+      print(f'ТРАССИРОВКА: {func.__name__}() '
+      f'вернула {original_result!r}')
+      return original_result
+    return wrapper
+
+  @trace 
+  def say(name, line):
+    return f'{name}: {line}'
+  
+  #output
+  say('Джейн', 'Привет, Мир')
+  'ТРАССИРОВКА: вызвана say() с ("Джейн", "Привет, Мир"), {}'
+  'ТРАССИРОВКА: say() вер
+  ```
+
 + Замыкание - это комбинация функции и множества ссылок на переменные в области видимости функции. Когда завершается функция, все ее локальные переменные уничтожаются, однако, можно сделать так, чтобы на эти переменные где-то существовала ссылка. В таком случае они будут все еще доступны. Такой прием и является **замыканием**. Функции, постоенные по принципу замыкания могут использоваться для построения других функций, т.е. являются фабриками функций:
   ```py
   def mul(a):
@@ -355,17 +378,17 @@ dimensions = (200, 50)
   def add1(x, y):
       time.sleep(1)
       return x + y
-  
-  
+
+
   @logged("%b %d %Y - %H:%M:%S")
   def add2(x, y):
       time.sleep(2)
       return x + y
-  
-  
+
+
   print(add1(1, 2))
   print(add2(1, 2))
-  
+
   # Output:
   - Running 'add1' on Jul 24 2013 - 13:40:47
   - Finished 'add1', execution time = 1.001s
@@ -373,6 +396,25 @@ dimensions = (200, 50)
   - Running 'add2' on Jul 24 2013 - 13:40:48
   - Finished 'add2', execution time = 2.001s
   3
+  ```
+
++ Декоратор может быть методом класса. В этом случае в качестве первого параметра используется self. Пример из Flask: 
+  ```py
+  def setupmethod(f):
+    """Wraps a method so that it performs a check in debug mode if the
+    first request was already handled.
+    """
+    def wrapper_func(self, *args, **kwargs):
+        if self.debug and self._got_first_request:
+            raise AssertionError('A setup function was called after the '
+                'first request was handled.  This usually indicates a bug '
+                'in the application where a module was not imported '
+                'and decorators or other functionality was called too late.\n'
+                'To fix this make sure to import all your view modules, '
+                'database models and everything related at a central place '
+                'before the application starts serving requests.')
+        return f(self, *args, **kwargs)
+    return update_wrapper(wrapper_func, f)
   ```
 
 ## <a name="files"></a> Работа с файлами
@@ -524,6 +566,7 @@ with open('sw_templates.json') as f:
 **В формат JSON нельзя записать словарь, у которого ключи - кортежи**
 
 ## <a name="OOP"></a> ООП
+
 
 ### <a name="metaclasses"> </a> Метаклассы
 + Классы в Python это объекты. Объект способен сам создавать экземпляры, так что это класс. **Метаклассы** – это классы, экземпляры которых являются классами. Для создания нового класса вызывает метакласс.
