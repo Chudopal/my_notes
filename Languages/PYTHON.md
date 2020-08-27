@@ -10,6 +10,7 @@
   + [Кортежи](#pulps)
   + [Словари](#dictionaries)
   + [Множества](#sets)
++ [Функции](#functions)
 + [Работа с файлами](#files)
 + [Работа JSON](#json)
   + [Чтение](#readjson)
@@ -223,6 +224,44 @@ dimensions = (200, 50)
  ```
 ### <a name="sets"></a> Множества
 
+## <a name="functions"></a>
++ Функции - это части кода которые можно использовать повторно неоднократное количество раз. Определяются при помощи ключевого слова **`def`**:
+  ```py
+  def print_hello():
+    print("hello")
+  ```
++ функции можно вызывать, тогда код, прописанный внутри них, будет исполняться:
+  ```py
+  print_hello
+  #hello
+  ```
++ функциям можно передавать параметры, для удобства можно ууказывать тип передаваемого аргумента:
+  ```py
+  def print_hello(name: str):
+    print( f"hello, {name}")
+
+  
+  print_hello("Alex")
+  #hello, Alex
+  ```
++ функции могут возвращать значения при помощи ключевого слова **`return`**, для удобства можно указывать тип, который возвращает функция:
+  ```py
+  def  print_and_return_hello(name: str) -> str:
+    print(f"hello, {name}")
+    return f"hello, {name}"
+
+  string = print_and_return_hello("Alex") #hello, Alex 
+  print(string) #hello, Alex
+  ```
++ функции, как и любые сущности в pyhon, являются объектами, потому их можно присваивать другим переменным:
+  ```py
+  def  print_and_return_hello(name: str) -> str:
+    print(f"hello, {name}")
+    return f"hello, {name}"
+
+  foo = print_and_return_hello #передаем без вызова функции
+  foo("Alex") #hello, Alex
+  ```
 
 ## <a name="files"></a> Работа с файлами
 + **`open("path", "mode")`** - открыть файл. `"path"` - путь к файлу от самой программы, `"mode"` - режим, в котором будет открыт файл:
