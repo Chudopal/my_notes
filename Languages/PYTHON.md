@@ -267,7 +267,6 @@ dimensions = (200, 50)
   print(c)#6
   ```
 
-
 + функции могут возвращать значения при помощи ключевого слова **`return`**, для удобства можно указывать тип, который возвращает функция:
   ```py
   def  print_and_return_hello(name: str) -> str:
@@ -287,7 +286,94 @@ dimensions = (200, 50)
   foo("Alex") #hello, Alex
   ```
 ### <a name="decorators"> </a> Декораторы
-+ Декоратор — паттерн проектирования, при использовании которого класс или функция изменяет или дополняет функциональность другого класса или функции без использования наследования или прямого изменения исходного кода.
++ Декоратор — паттерн проектирования, при использовании которого класс или функция изменяет или дополняет функциональность другого класса или функции без использования наследования или прямого изменения исходного кода. Они оборачивают функцию и позволяют выполнять код до и после обернутой функции.
+  ```py
+  def null_decorator(func):
+    print("decorize")
+    return func
+
+  @null_decorator
+  def greet():
+    return 'Hello'
+
+  print(greet()) #decorize Hello
+  ```
++ можно изменять состояние функции внутри декоратора, а так же применять несколько декораторов вместе:
+  ```py
+  def strong(func):
+    def wrapper():
+    return '<strong>' + func() + '</strong>'
+    return wrapper
+
+  
+  def emphasis(func):
+    def wrapper():
+    return '<em>' + func() + '</em>'
+    return wrapper
+
+
+  @strong
+  @emphasis
+    def greet():
+    return 'Привет!'  
+    
+
+  greet() #'<strong><em>Привет!</em></strong>'
+  ```
++ Замыкание - это комбинация функции и множества ссылок на переменные в области видимости функции. Когда завершается функция, все ее локальные переменные уничтожаются, однако, можно сделать так, чтобы на эти переменные где-то существовала ссылка. В таком случае они будут все еще доступны. Такой прием и является **замыканием**. Функции, постоенные по принципу замыкания могут использоваться для построения других функций, т.е. являются фабриками функций:
+  ```py
+  def mul(a):
+      def helper(b):
+          return a * b
+      return helper
+
+  mul5 = mul(5)
+  print(mul5(9))#45
+  ```
++ Замыкание можно использовать при построении декораторов. Такой подход часто применяется в Flask:
+  ```py
+  def logged(time_format):
+    def decorator(func):
+        def decorated_func(*args, **kwargs):
+            print("- Running '{}' on {} ".format(
+                func.__name__,
+                time.strftime(time_format)
+            ))
+            start_time = time.time()
+            result = func(*args, **kwargs)
+            end_time = time.time()
+            print("- Finished '{}', execution time = {:0.3f}s ".format(
+                func.__name__,
+                end_time - start_time
+            ))
+            return result
+        decorated_func.__name__ = func.__name__
+        return decorated_func
+    return decorator
+
+  @logged("%b %d %Y - %H:%M:%S")
+  def add1(x, y):
+      time.sleep(1)
+      return x + y
+  
+  
+  @logged("%b %d %Y - %H:%M:%S")
+  def add2(x, y):
+      time.sleep(2)
+      return x + y
+  
+  
+  print(add1(1, 2))
+  print(add2(1, 2))
+  
+  # Output:
+  - Running 'add1' on Jul 24 2013 - 13:40:47
+  - Finished 'add1', execution time = 1.001s
+  3
+  - Running 'add2' on Jul 24 2013 - 13:40:48
+  - Finished 'add2', execution time = 2.001s
+  3
+  ```
 
 ## <a name="files"></a> Работа с файлами
 + **`open("path", "mode")`** - открыть файл. `"path"` - путь к файлу от самой программы, `"mode"` - режим, в котором будет открыт файл:
