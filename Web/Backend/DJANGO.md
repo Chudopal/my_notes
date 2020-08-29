@@ -13,6 +13,7 @@
   + [Немного про внешний ключ](#forignkey)
   + [Добавление моделей в abmin.py](#add_in_admin)
   + [Настройка отображения моделей](#display_of_models)
++ [Устновка postgresql](#install_psql)
 + [Работа с оболочкой](#query_set)
 + [Обработчики Django](#handl)
   + [views.py](#look_of_site)
@@ -203,6 +204,57 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'author', 'publish','status') #столбцы таблицы
 ```
 Так мы говорим Django, что наша модель зарегистрирована на сайте администрирования с помощью пользовательского класса, наследника `ModelAdmin`.
+
+### <a name="install_psql"></a> Установка postgresql
+1. Создать базу данных и пользователя:
+    1. Открыть pslq:
+        ```
+            sudo -u postgres psql
+        ```
+    2. Создать базу данных:
+        ```
+            postgres=# CREATE DATABASE myproject;
+        ```
+    3. Создать юзера:
+        ```
+            postgres=# CREATE USER myprojectuser WITH PASSWORD 'password';
+        ```
+    4. Устновить `utf-8`, так как джанго использует именно его:
+        ```
+            postgres=# ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+        ```
+    5. Уровень изолированности транзакций нужно по умолчанию установить как “read committed” (чтение фиксированных данных) – этот уровень обеспечивает защиту от чернового чтения:
+        ```
+            postgres=# ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+        ```
+    6. Установить `UTC`:
+        ```
+            postgres=# ALTER ROLE myprojectuser SET timezone TO 'UTC';
+        ```
+    7. Дать только что созданному пользователю права доступа к созданной базе:
+    ```
+        postgres=# GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+    ```
+    8. Выход):
+    ```
+        postgres=# \q
+    ```
+2. При создании виртуальной среды и Django нужно так же установить **`psycopg2`**, который позволит использовать установленную ранее базу данных.
+3. Зайти в файл **settings.py** своего проекта и изменить переменную **DATABASES**:
+    ```py
+    DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql_psycopg2',
+           'NAME': 'myproject',
+           'USER': 'myprojectuser',
+           'PASSWORD': 'password',
+           'HOST': 'localhost',
+           'PORT': '',
+        }
+    }
+    ```
+    Сохранить и закрыть файл.
+    
 
 ## <a name="query_set"></a> Работа с оболочкой
 Django ORM основана на объектах запросов *QuerySet*. QuerySet – это коллекция объектов, полученных из базы данных. К ней могут быть применены фильтрация и сортировка.
