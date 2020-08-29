@@ -206,6 +206,10 @@ class PostAdmin(admin.ModelAdmin):
 Так мы говорим Django, что наша модель зарегистрирована на сайте администрирования с помощью пользовательского класса, наследника `ModelAdmin`.
 
 ### <a name="install_psql"></a> Установка postgresql
+0. Обязательно установить:
+    ```
+        sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib
+    ```
 1. Создать базу данных и пользователя:
     1. Открыть pslq:
         ```
@@ -254,7 +258,7 @@ class PostAdmin(admin.ModelAdmin):
     }
     ```
     Сохранить и закрыть файл.
-    
+
 
 ## <a name="query_set"></a> Работа с оболочкой
 Django ORM основана на объектах запросов *QuerySet*. QuerySet – это коллекция объектов, полученных из базы данных. К ней могут быть применены фильтрация и сортировка.
