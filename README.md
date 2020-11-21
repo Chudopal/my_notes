@@ -9,10 +9,12 @@
  + [JS](./Web/Frontend/JS.md)
  + [CSS](./Web/Frontend/CSS.md)
  + [React](./Web/Frontend/REACT.md)
-3. #### Паттерны проектирования
- + [Порождающие](./Patterns/Creational.md)
- + [Структурные](./Patterns/Structura.md)
- + [Поведенческие](./Patterns/Behavioral.md)
+3. #### Архитектура
+ + [UML](./Architecture/UML.md)
+ + [Порождающие паттерны](./Architecture/Creational.md)
+ + [Структурные паттерны](./Architecture/Structura.md)
+ + [Поведенческие паттерны](./Architecture/Behavioral.md)
+
 4. #### ЯП-ы
  + [C++](./Languages/C++.md)
  + [Python](./Languages/PYTHON.md)
