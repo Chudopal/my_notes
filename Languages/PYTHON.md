@@ -800,7 +800,48 @@ with open('sw_templates.json') as f:
 
 
 ## <a name="threads"> </a> Потоки
-+ **Поток** - инструмент, позволяющий выполнять подпрограммы одновременно. Однако в python параллельное выполнение на уровне потоков блокируется глобальным блокировщиком. Он гарантирует, что в одно время выполняется не более 1 потока. Это увеличивает безопасность приложения. 
++ **Поток** - инструмент, позволяющий выполнять подпрограммы одновременно. Однако в python параллельное выполнение на уровне потоков блокируется глобальным блокировщиком. Он гарантирует, что в одно время выполняется не более 1 потока. Это увеличивает безопасность приложения. Многопоточное приложение не запускает сразу несколько процессов, это делает многопроцессное приложение.
++ В python за многопоточность ответственнен модуль `threading`, основной класс в этой библиотеке это `Thread`:
+  ```python
+  import threading
+  import time
+
+  def T1():
+      while True:
+          time.sleep(1)
+          print("This is thread 1")
+
+  def T2():
+      while True:
+          time.sleep(1)
+          print("This is thread 2")
+
+
+  t1 = threading.Thread(target=T1, daemon=True)
+  t2 = threading.Thread(target=T2, daemon=True)
+
+  t1.start()
+  t2.start()
+
+  while True:
+      time.sleep(1)
+      print("This is main thread")
+
+  # output:
+  # This is thread 2
+  # This is main thread
+  # This is thread 1
+  # This is main thread
+  # This is thread 2
+  # This is thread 1
+  # This is main thread
+  # This is thread 2
+  # This is thread 1
+  # This is main thread
+  # This is thread 2
+  # This is thread 1
+
+  ```
 
 
 ## <a name="dop"></a> Дополнение
