@@ -10,6 +10,7 @@
  + [CSS](./Web/Frontend/CSS.md)
  + [React](./Web/Frontend/REACT.md)
 3. #### Архитектура
+ + [SOLID](./Architecture/SOLID.md)
  + [UML](./Architecture/UML.md)
  + [Порождающие паттерны](./Architecture/Creational.md)
  + [Структурные паттерны](./Architecture/Structura.md)
