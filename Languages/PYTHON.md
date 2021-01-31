@@ -24,6 +24,7 @@
 + [Объектная модель в Python](#object_model)
 + [Пакеты и модули](#packeges)
 + [Потоки](#threads)
++ [Сокеты](#sockets)
 + [Дополнение](#dop)
   + [Ключевые слова](#keywords)
 
@@ -840,8 +841,20 @@ with open('sw_templates.json') as f:
   # This is main thread
   # This is thread 2
   # This is thread 1
-
   ```
+
+## Сокеты
++ Сокеты встроены в Python в виде стандартной библиотеки **`socket`**. Первичные функци и методы этого модуля следующие:
+  + socket();
+  + bind();
+  + listen();
+  + accept();
+  + connect();
+  + connect_ex();
+  + send();
+  + recv();
+  + close();
+
 
 
 ## <a name="dop"></a> Дополнение
