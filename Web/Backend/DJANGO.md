@@ -26,6 +26,7 @@
 + [Сессии](#sessions)
 + [Развертывание](#deployment)
 + [Как пакетировать приложение](#package)
++ [Debug tools](#debug)
 
 ## <a name="settings_of_env"></a> Настройка виртуальной среды
 + Для того, чтобы начать Django-проект желательно сделать виртуальную среду и установить в ней Django.
@@ -508,3 +509,33 @@ request.session.modified = True
   + **SECRET_KEY** - важно, чтобы ключ, используемый в продакшине, не указывался в исходном коде, и/или не запрашивался с другого сервера. Django рекомендует размещать значение ключа либо в переменной окружения, или в файле с доступом только на чтение.
 
 ## <a name="package"><a> Как пакетировать приложение
+  
+## <a name="debug"></a> Debug tools
+- django-debug-toolbar - добавляет панель инструментов в ваш браузер, которая покажет вам много отладочной информации во время работы вашего проекта. Используя его, вы можете увидеть количество запросов SQL, которые были выполнены. Также возможно проверить эти запросы, проверить код SQL и посмотреть, в каком порядке они выполнялись и сколько времени занимал каждый из них. Добавление: https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
+- django-silk - Он перехватывает запросы, записывает выполненные SQL-запросы и предоставляет способ их визуализации. Вы сможете просматривать запросы, просматривать список выполненных SQL-запросов и смотреть подробную информацию о конкретном запросе, в том числе о том, какая строка кода вызвала выполнение определенного запроса. Сохраняет все данные в БД. Добавление: https://pypi.org/project/django-silk/#installation
+- connection.queries - Когда установлен debug = True, можно получить доступ к запросам, которые были выполнены, через connection.queries:
+  ```py
+  >>> from django.db import connection
+  >>> Post.objects.all()
+  >>> connection.queries
+  [
+     {
+        'sql': 'SELECT "blogposts_post"."id", "blogposts_post"."title", '
+               '"blogposts_post"."content", "blogposts_post"."blog_id", '
+               '"blogposts_post"."published" FROM "blogposts_post" LIMIT 21',
+        'time': '0.000'
+     }
+  ]
+  ```
+  Способ очистки:
+  ```py
+  >>> from django.db import reset_queries
+  >>> reset_queries()
+  ```
+- Можно посмотреть query и в самом queryset:
+  ```py
+  >>> from accounts.models import Author
+  >>> q1 = Author.objects.all()
+  >>> str(q1.query)  
+  'SELECT "accounts_author"."id", "accounts_author"."pseudonym", "accounts_author"."name" FROM "accounts_author"'
+  ```
